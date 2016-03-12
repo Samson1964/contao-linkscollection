@@ -131,7 +131,7 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('protected'), 
-		'default'                     => '{infobox_legend},infobox;{title_legend},title,url,webarchiv,popular,newWindow,text;{problem_legend},problem,problemdate,problemcount,warnings;{name_legend:hide},name,email;{hits_legend:hide},hits;{guests_legend:hide},ip,ipdate;{state_legend:hide},statecode,statetext,statedate;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{published_legend},published,start,stop'
+		'default'                     => '{infobox_legend},infobox;{title_legend},title,url,language,webarchiv,popular,newWindow,text;{problem_legend},problem,problemdate,problemcount,warnings;{name_legend:hide},name,email;{hits_legend:hide},hits;{guests_legend:hide},ip,ipdate;{state_legend:hide},statecode,statetext,statedate;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{published_legend},published,start,stop'
 	), 
 
 	// Subpalettes
@@ -183,12 +183,31 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
         ),
 		'url' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['url'],
+			'label'                 => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['url'],
+			'exclude'               => true,
+			'default'               => 'http://www.',
+			'inputType'             => 'text',
+			'eval'                  => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'tl_class'=>'w50', 'maxlength'=>255),
+			'sql'                   => "varchar(255) NOT NULL default ''",
+			'load_callback'			=> array
+			(
+				array('tl_linkscollection_links', 'saveUrl')
+			),
+			'save_callback'			=> array
+			(
+				array('tl_linkscollection_links', 'checkUrl')
+			),
+		), 
+		'language' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['language'],
 			'exclude'                 => true,
-			'default'                 => 'http://www.',
-			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'tl_class'=>'long', 'maxlength'=>255),
-			'sql'                     => "varchar(255) NOT NULL default ''"
+			'filter'                  => true,
+			'sorting'                 => true,
+			'inputType'               => 'select',
+			'options'                 => System::getCountries(),
+			'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(2) NOT NULL default ''"
 		), 
 		// Link offline, aber auf www.archive.org
 		'webarchiv' => array
@@ -532,28 +551,96 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 class tl_linkscollection_links extends Backend
 {
 
+	var $oldurl; // Speichert die alte URL
+	
+    /**
+     * Beim Speichern eines Datensatzes zusätzliche Änderungen vornehmen
+     * @param DataContainer
+     * @return -
+     */
 	public function saveRecord(DataContainer $dc)
 	{
+
 		// Unerledigte Warnungen zählen
-		$warnings = unserialize($dc->activeRecord->warnings);
 		$w = 0;
-		foreach($warnings as $warning)
+		if($dc->activeRecord->warnings)
 		{
-			if(!$warning['done']) $w++;
+			$warnings = unserialize($dc->activeRecord->warnings);
+			foreach($warnings as $warning)
+			{
+				if(!$warning['done'] && $warning['date']) $w++;
+			}
 		}
-		$dc->activeRecord->problemcount = $w;
-		return $dc;
+
+		// Update Datenbank
+		$set = array
+		(
+			'problemcount'	=> $w
+		);
+		$this->Database->prepare("UPDATE tl_linkscollection_links %s WHERE id=?")
+			 	 	   ->set($set)
+				       ->execute($dc->id);
+	}
+
+    /**
+     * Speichert das Feld url des gerade geladenen Datensatzes
+     * @param array
+     * @return string
+     */
+    public function saveUrl($arrValue)
+    {
+    	$this->oldurl = $arrValue;
+	    return $arrValue;
+
+	}
+
+    /**
+     * Überprüft das Feld url des gerade geladenen Datensatzes
+     * @param array
+     * @return string
+     */
+    public function checkUrl($arrValue)
+    {
+    	// URL vergleichen, bei Differenz neue URL prüfen und Status eintragen
+    	if($arrValue != $this->oldurl)
+    	{
+			$arrRow = array
+			(
+				'id'		=> \Input::get('id'),
+				'url'		=> $arrValue
+			);
+			// URL neu prüfen und Favicon downloaden
+			$arrRow = \Linkscollection::saveFavicon($arrRow);
+
+			// Update Datenbank
+			$set = array
+			(
+				'statedate' => $arrRow['statedate'],
+				'statecode' => $arrRow['statecode'],
+				'statetext' => $arrRow['statetext']
+			);
+			$this->Database->prepare("UPDATE tl_linkscollection_links %s WHERE id=?")
+				 	 	   ->set($set)
+					       ->execute($arrRow['id']);
+	    }
+	    
+	    return $arrValue;
+
 	}
 
 	public function getDate($arrValue)
 	{
-		return date("d.m.Y H:i", $arrValue);
+		return ($arrValue) ? date("d.m.Y H:i", $arrValue) : '';
 	}
 
 	public function saveDate($arrValue)
 	{
-		$dtime = DateTime::createFromFormat("d.m.Y H:i", $arrValue);
-		return $dtime->getTimestamp();
+		if($arrValue)
+		{
+			$dtime = DateTime::createFromFormat("d.m.Y H:i", $arrValue);
+			return $dtime->getTimestamp();
+		}
+		else return 0;
 	}
 	 
     /**
@@ -567,45 +654,12 @@ class tl_linkscollection_links extends Backend
 
 		if($arrRow['statedate'] < $refreshtime)
 		{
-    		// URL prüfen und ggfs. Favicon neu laden
-        	$objRequest = new Request();
-        	$objRequest->send($arrRow['url']);
-        	
-        	$strError = '';
-        	
-        	if(!$objRequest->hasError())
-        	{
-        		// Kein Fehler, deshalb Favicon-Link ermitteln
-				$favicon = new FaviconDownloader($arrRow['url']);
-				if($favicon->icoExists)
-				{
-				    // Saving favicon to file
-				    $filename = TL_ROOT.'/system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
-				    $icon = 'system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
-				    file_put_contents($filename, $favicon->icoData);
-				}			
-        	}
-
-			// Datenbank aktualisieren
-			$arrRow['statedate'] = time();
-			$arrRow['statecode'] = $objRequest->code;
-			$arrRow['statetext'] = ($objRequest->error) ? : 'OK';
-			$set = array
-			(
-				'statedate' => $arrRow['statedate'],
-				'statecode' => $arrRow['statecode'],
-				'statetext' => $arrRow['statetext']
-			);
-			\Database::getInstance()->prepare('UPDATE tl_linkscollection_links %s WHERE id = ?')
-									->set($set)
-									->execute($arrRow['id']);
-
+			// URL neu prüfen und Favicon downloaden
+			$arrRow = \Linkscollection::saveFavicon($arrRow);
 		}
-		else
-		{
-			// Link wurde kürzlich geprüft, jetzt nur Favicon suchen
-			$icon = \Linkscollection::getFavicon($arrRow['id']);
-		}
+
+		// Favicon suchen
+		$icon = \Linkscollection::getFavicon($arrRow['id']);
 
         switch($arrRow['statecode'])
         {

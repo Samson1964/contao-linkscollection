@@ -29,6 +29,7 @@ $GLOBALS['TL_LANG']['tl_linkscollection_links']['infobox_legend'] = 'Information
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['title_legend'] = 'Link-Angaben';
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['title'] = array('Titel', 'Titel des Links');
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['url'] = array('URL', 'URL des Links');
+$GLOBALS['TL_LANG']['tl_linkscollection_links']['language'] = array('Sprache', 'Sprache des Links');
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['webarchiv'] = array('URL offline', 'Weiterleitung zu archive.org aktivieren');
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['popular'] = array('Populärer Link', 'Link als populär kennzeichnen');
 $GLOBALS['TL_LANG']['tl_linkscollection_links']['newWindow'] = array('Neues Fenster', 'Link im neuen Fenster öffnen');

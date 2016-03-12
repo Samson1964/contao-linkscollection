@@ -11,6 +11,9 @@
  * @copyright Frank Hoppe 2014
  */
 
+// Include Simple HTML Dom Parser
+require_once(TL_ROOT . '/system/modules/linkscollection/includes/simple_html_dom.php');
+		
 define(DEFAULT_FAVICON, 'system/modules/linkscollection/assets/images/favicon.png');
 define(NEWICON, '<img src="system/modules/linkscollection/assets/images/new.gif">');
 define(DATE_NEWLINK, 60480000); // 100 Tage

@@ -12,7 +12,12 @@
 
 class Linkscollection
 {
-
+	
+	/**
+	 * Liefert das Favicon zurück
+	 * @param string	ID des Links
+	 * @return string	Icon-Pfad
+	 */
 	public static function getFavicon($id)
 	{
 		$suffixes = array('ico','gif','png','jpg'); // Erlaubte Favicon-Endungen
@@ -31,6 +36,80 @@ class Linkscollection
 		return $string;								                              
 	}
 	
+	/**
+	 * Download des Favicons und Informationen zur URL-Erreichbarkeit
+	 * @param array		Datensatz des Links
+	 * @return array    Modifizierter Datensatz
+	 */
+	public static function saveFavicon($arrRow)
+	{
+
+    	// URL prüfen und ggfs. Favicon neu laden
+        $objRequest = new Request();
+        $objRequest->send($arrRow['url']);
+
+        $strError = '';
+        $language = '';
+        
+        if(!$objRequest->hasError())
+        {
+        	// Kein Fehler, deshalb Favicon-Link ermitteln
+			$favicon = new FaviconDownloader($arrRow['url']);
+			if($favicon->icoExists)
+			{
+			    // Saving favicon to file
+			    $filename = TL_ROOT.'/system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
+			    $icon = 'system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
+			    file_put_contents($filename, $favicon->icoData);
+			}			
+			// Sprache der URL ermitteln
+			$language = self::checkLanguage($objRequest->response);
+		        
+        }
+
+		// Datenbank aktualisieren
+		$arrRow['statedate'] = time();
+		$arrRow['statecode'] = $objRequest->code;
+		$arrRow['statetext'] = ($objRequest->error) ? : 'OK';
+		$arrRow['language'] = $language;
+		$set = array
+		(
+			'statedate' => $arrRow['statedate'],
+			'statecode' => $arrRow['statecode'],
+			'statetext' => $arrRow['statetext'],
+			'language'  => $arrRow['language']
+		);
+		\Database::getInstance()->prepare('UPDATE tl_linkscollection_links %s WHERE id = ?')
+								->set($set)
+								->execute($arrRow['id']);
+		
+		return $arrRow;
+	}
+	
+	/**
+	 * Liest die Sprache aus dem DOM
+	 * @param string	HTML der Webseite
+	 * @return string
+	 */
+	public static function checkLanguage($string)
+	{
+		$return = '';
+
+		// DOM aus einem String
+		$html = str_get_html($string);
+		// <html lang="?">
+		foreach($html->find('html') as $item)
+		{
+			if($item->lang)
+			{
+				$return = $item->lang;
+				break;
+			}
+		}
+
+		return $return;		
+	}
+
 	/**
 	 * Liefert eine Breadcrumb-Navigation der Kategorien
 	 * @param string	Serialisiertes Array mit den Daten

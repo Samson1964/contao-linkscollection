@@ -1,4 +1,20 @@
-# Linksammlung
+# Linkscollection
+
+Linksammlung für Contao mit beliebig vielen Kategorien und Unterkategorien.
+
+Alphaversion, bitte nur zum Testen verwenden!
+Die jeweils aktuellste Version ist hier im Einsatz:
+[Deutscher Schachbund](http://www.schachbund.de/linksammlung.html)
+
+## Funktionen
+
+- Kategorien und Unterkategorien in beliebig vielen Ebenen
+- Automatische Linküberprüfung
+- Automatisches Laden von Favicons
+- Automatische Ermittlung der Sprache der verlinkten Seite
+- Darstellung von Toplinks im Frontend
+- Darstellung von Neuen Links im Frontend
+- Meldung von fehlerhaften und neuen Links
 
 ## Verwendete Grafiken
 
