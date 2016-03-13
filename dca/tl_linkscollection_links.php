@@ -190,14 +190,6 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 			'inputType'             => 'text',
 			'eval'                  => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'tl_class'=>'w50', 'maxlength'=>255),
 			'sql'                   => "varchar(255) NOT NULL default ''",
-			'load_callback'			=> array
-			(
-				array('tl_linkscollection_links', 'saveUrl')
-			),
-			'save_callback'			=> array
-			(
-				array('tl_linkscollection_links', 'checkUrl')
-			),
 		), 
 		'language' => array
 		(
@@ -569,68 +561,34 @@ class tl_linkscollection_links extends Backend
 		$w = 0;
 		if($dc->activeRecord->warnings)
 		{
-			$warnings = unserialize($dc->activeRecord->warnings);
+			// $dc->activeRecord->warnings ggfs. umwandeln
+			$warnings = (is_array($dc->activeRecord->warnings)) ? $dc->activeRecord->warnings : unserialize($dc->activeRecord->warnings);
 			foreach($warnings as $warning)
 			{
 				if(!$warning['done'] && $warning['date']) $w++;
 			}
 		}
 
+		// URL neu prüfen und Favicon downloaden
+		$arrRow = array
+		(
+			'id'		=> $dc->id,
+			'webarchiv'	=> \Input::post('webarchiv'),
+			'url'		=> \Input::post('url')
+		);
+		$arrRow = \Linkscollection::saveFavicon($arrRow);
+
 		// Update Datenbank
 		$set = array
 		(
+			'statedate' 	=> $arrRow['statedate'],
+			'statecode' 	=> $arrRow['statecode'],
+			'statetext' 	=> $arrRow['statetext'],
 			'problemcount'	=> $w
 		);
 		$this->Database->prepare("UPDATE tl_linkscollection_links %s WHERE id=?")
 			 	 	   ->set($set)
 				       ->execute($dc->id);
-	}
-
-    /**
-     * Speichert das Feld url des gerade geladenen Datensatzes
-     * @param array
-     * @return string
-     */
-    public function saveUrl($arrValue)
-    {
-    	$this->oldurl = $arrValue;
-	    return $arrValue;
-
-	}
-
-    /**
-     * Überprüft das Feld url des gerade geladenen Datensatzes
-     * @param array
-     * @return string
-     */
-    public function checkUrl($arrValue)
-    {
-    	// URL vergleichen, bei Differenz neue URL prüfen und Status eintragen
-    	if($arrValue != $this->oldurl)
-    	{
-			$arrRow = array
-			(
-				'id'		=> \Input::get('id'),
-				'webarchiv'	=> \Input::post('webarchiv'),
-				'url'		=> $arrValue
-			);
-			// URL neu prüfen und Favicon downloaden
-			$arrRow = \Linkscollection::saveFavicon($arrRow);
-
-			// Update Datenbank
-			$set = array
-			(
-				'statedate' => $arrRow['statedate'],
-				'statecode' => $arrRow['statecode'],
-				'statetext' => $arrRow['statetext']
-			);
-			$this->Database->prepare("UPDATE tl_linkscollection_links %s WHERE id=?")
-				 	 	   ->set($set)
-					       ->execute($arrRow['id']);
-	    }
-	    
-	    return $arrValue;
-
 	}
 
 	public function getDate($arrValue)

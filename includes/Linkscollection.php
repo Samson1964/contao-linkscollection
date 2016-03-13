@@ -108,13 +108,16 @@ class Linkscollection
 
 		// DOM aus einem String
 		$html = str_get_html($string);
-		// <html lang="?">
-		foreach($html->find('html') as $item)
+		if($html)
 		{
-			if($item->lang)
+			// <html lang="?">
+			foreach($html->find('html') as $item)
 			{
-				$return = $item->lang;
-				break;
+				if($item->lang)
+				{
+					$return = $item->lang;
+					break;
+				}
 			}
 		}
 
