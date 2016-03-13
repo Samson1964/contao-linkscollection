@@ -15,6 +15,7 @@ Die jeweils aktuellste Version ist hier im Einsatz:
 - Darstellung von Toplinks im Frontend
 - Darstellung von Neuen Links im Frontend
 - Meldung von fehlerhaften und neuen Links
+- Halbautomatische Weiterleitung zu webarchive.org
 
 ## Verwendete Grafiken
 

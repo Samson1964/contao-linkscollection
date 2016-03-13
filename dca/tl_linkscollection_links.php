@@ -163,6 +163,7 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
     		(
         		array('tl_linkscollection_links', 'saveInitdate')
     		),
+    		'flag'					  => 5,
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
  		), 
 		'infobox' => array
@@ -304,6 +305,7 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric', 'tl_class'=>'w50'),
+    		'flag'					  => 5,
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		), 
 		// Statuscode des Links
@@ -329,6 +331,7 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
+    		'flag'					  => 5,
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		), 
   		'problem' => array
@@ -346,6 +349,7 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'tl_class'=>'w50', 'rgxp'=>'numeric'),
+    		'flag'					  => 5,
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		), 
 		'problemcount' => array
