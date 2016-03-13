@@ -411,25 +411,25 @@ class Linksammlung extends \Module
 			(
 				'label'		=> 'Vor- und Nachname',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>true)
+				'eval'		=> array('mandatory'=>true, 'class'=>'form-control')
 			),
 			'email' => array
         	(
                 'label'         => 'E-Mail',
                 'inputType'     => 'text',
-                'eval'          => array('mandatory'=>true, 'rgxp'=>'email')             
+                'eval'          => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')             
         	),
 			'title' => array
 			(
 				'label'		=> 'Titel des Links',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>true)
+				'eval'		=> array('mandatory'=>true, 'class'=>'form-control')
 			),
 			'url' => array
 			(
 				'label'		=> 'URL des Links',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>true, 'rgxp'=>'url')		
+				'eval'		=> array('mandatory'=>true, 'rgxp'=>'url', 'class'=>'form-control')		
 			),
 			'category' => array
 			(
@@ -437,17 +437,18 @@ class Linksammlung extends \Module
 				'inputType' => 'select',
 				'options'   => array_keys($this->tree),
 				'reference' => $this->tree,
-				'eval'		=> array('mandatory'=>true, 'choosen'=>true)		
+				'eval'		=> array('mandatory'=>true, 'choosen'=>true, 'class'=>'form-control')		
 			),
 			'description' => array
 			(
 				'label'		=> 'Beschreibung des Links',
 				'inputType' => 'textarea',
-				'eval'		=> array('rte'=>'tinyMCE')
+				'eval'		=> array('rte'=>'tinyMCE', 'class'=>'form-control')
 			),
 			'submit' => array
 			(
 				'label' 	=> 'Absenden',
+				'eval'		=> array('class'=>'btn btn-primary'),
 				'inputType' => 'submit'
 			)
 		);
@@ -544,42 +545,43 @@ class Linksammlung extends \Module
 			(
 				'label'		=> 'Vor- und Nachname',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>true)
+				'eval'		=> array('mandatory'=>true, 'class'=>'form-control')
 			),
 			'email' => array
         	(
                 'label'     => 'E-Mail',
                 'inputType' => 'text',
-                'eval'      => array('mandatory'=>true, 'rgxp'=>'email')             
+                'eval'      => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')             
         	),
 			'new_title' => array
 			(
 				'label'		=> 'Neuer Titel',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>false)
+				'eval'		=> array('mandatory'=>false, 'class'=>'form-control')
 			),
 			'new_url' => array
 			(
 				'label'		=> 'Neue URL',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>false, 'rgxp'=>'url')		
+				'eval'		=> array('mandatory'=>false, 'rgxp'=>'url', 'class'=>'form-control')		
 			),
 			'error' => array
 			(
 				'label'		=> 'Fehler',
 				'inputType' => 'select',
 				'options'   => &$GLOBALS['TL_LANG']['linkscollection']['errors'],
-				'eval'		=> array('mandatory'=>false, 'choosen'=>true)		
+				'eval'		=> array('mandatory'=>false, 'choosen'=>true, 'class'=>'form-control')		
 			),
 			'comment' => array
 			(
 				'label'		=> 'Kommentar',
 				'inputType' => 'textarea',
-				'eval'		=> array('mandatory'=>true, 'rte'=>'tinyMCE')
+				'eval'		=> array('mandatory'=>true, 'rte'=>'tinyMCE', 'class'=>'form-control')
 			),
 			'submit' => array
 			(
 				'label' 	=> 'Absenden',
+				'eval'		=> array('class'=>'btn btn-primary'),
 				'inputType' => 'submit'
 			)
 		);
