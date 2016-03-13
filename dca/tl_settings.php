@@ -14,7 +14,7 @@
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{linkscollection_legend:hide},linkscollection_new_duration,linkscollection_test_duration';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{linkscollection_legend:hide},linkscollection_new_duration,linkscollection_test_duration,linkscollection_webarchiv';
 
 /**
  * fields
@@ -39,5 +39,15 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['linkscollection_test_duration'] = a
 	(
 		'tl_class'  => 'w50', 
 		'rgxp'      => 'numeric'
+	)
+);
+
+$GLOBALS['TL_DCA']['tl_settings']['fields']['linkscollection_webarchiv'] = array
+(
+	'label'         => &$GLOBALS['TL_LANG']['tl_settings']['linkscollection_webarchiv'],
+	'inputType'     => 'text',
+	'eval'          => array
+	(
+		'tl_class'  => 'long', 
 	)
 );
