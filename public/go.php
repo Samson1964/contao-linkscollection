@@ -15,7 +15,7 @@ use Contao\Controller;
  */
 define('TL_MODE', 'FE');
 if(file_exists('../../../initialize.php')) require('../../../initialize.php');
-else require('../../../../../system/initialize.php');
+else require('../../../../system/initialize.php');
 
 
 /**
@@ -33,7 +33,6 @@ class LinkClick
 
 	public function run()
 	{
-		$webarchiv = 'https://web.archive.org/web/*/'; // Link (Prefix) in das Webarchiv
 		$ip = $_SERVER['REMOTE_ADDR'];
 
     	$objLink = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND id = ?')
@@ -60,7 +59,7 @@ class LinkClick
         							->executeUncached($this->id);
         }
 
-		$url = ($objLink->webarchiv) ? $webarchiv.$objLink->url : $objLink->url;  // Webarchivlink?
+		$url = \Linkscollection::getWeblink($objLink->url, $objLink->webarchiv);
 		       						
 		\System::log('[Linkscollection] Forwarding link ID '.$objLink->id.': '.$url, __CLASS__.'::'.__FUNCTION__, TL_ACCESS); 
         header('Location:'.$url);

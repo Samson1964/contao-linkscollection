@@ -14,6 +14,17 @@ class Linkscollection
 {
 	
 	/**
+	 * Liefert die URL zurück, ggfs. mit Prefix Webarchiv
+	 * @param string	ID des Links
+	 * @param string	Webarchiv-Status des Links
+	 * @return string	URL
+	 */
+	public static function getWeblink($url, $archiv)
+	{
+		return ($archiv) ? $GLOBALS['TL_CONFIG']['linkscollection_webarchiv'].$url : $url;
+	}
+
+	/**
 	 * Liefert das Favicon zurück
 	 * @param string	ID des Links
 	 * @return string	Icon-Pfad
@@ -46,7 +57,7 @@ class Linkscollection
 
     	// URL prüfen und ggfs. Favicon neu laden
         $objRequest = new Request();
-        $objRequest->send($arrRow['url']);
+		$objRequest->send(self::getWeblink($arrRow['url'], $arrRow['webarchiv']));
 
         $strError = '';
         $language = '';
@@ -54,7 +65,7 @@ class Linkscollection
         if(!$objRequest->hasError())
         {
         	// Kein Fehler, deshalb Favicon-Link ermitteln
-			$favicon = new FaviconDownloader($arrRow['url']);
+			$favicon = new FaviconDownloader(self::getWeblink($arrRow['url'], $arrRow['webarchiv']));
 			if($favicon->icoExists)
 			{
 			    // Saving favicon to file

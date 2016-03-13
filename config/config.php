@@ -53,6 +53,7 @@ if(TL_MODE == 'BE') $GLOBALS['TL_CSS'][] = 'system/modules/linkscollection/asset
 
 $GLOBALS['TL_CONFIG']['linkscollection_new_duration'] = 60; // 60 Tage gilt ein Link als neu
 $GLOBALS['TL_CONFIG']['linkscollection_test_duration'] = 365; // 365 Tage bis zur nächsten Linkprüfung
+$GLOBALS['TL_CONFIG']['linkscollection_webarchiv'] = 'https://web.archive.org/web/*/'; // Link zum Webarchiv (Prefix)
 
 /**
  * Define special style sheet filters

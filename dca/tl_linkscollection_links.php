@@ -611,6 +611,7 @@ class tl_linkscollection_links extends Backend
 			$arrRow = array
 			(
 				'id'		=> \Input::get('id'),
+				'webarchiv'	=> \Input::post('webarchiv'),
 				'url'		=> $arrValue
 			);
 			// URL neu prüfen und Favicon downloaden
@@ -687,9 +688,11 @@ class tl_linkscollection_links extends Backend
 	        	$info = '';
 	    }
         
+        $archivclass = ($arrRow['webarchiv']) ? ' webarchiv' : ''; // Webarchiv-Klasse hinzufügen
+        
         $line = '';
         $line .= '<div class="tl_content_right" style="'.$style.' font-weight:bold;">'.$arrRow['statecode'].'</div>';
-        $line .= '<div class="favicon-img" style="background-image: url('.$icon.');">';
+        $line .= '<div class="favicon-img'.$archivclass.'" style="background-image: url('.$icon.');">';
         $line .= '<a href="'.$arrRow['url'].'" target="_blank"><b>'.$arrRow['title'].'</b></a> - '.$arrRow['url'].$info;
         if($arrRow['text']) $line .= '<div class="description">'.$arrRow['text'].'</div>';
         $line .= "</div>";
