@@ -15,6 +15,7 @@ class Linksammlung extends \Module
 {
 
 	protected $strTemplate = 'mod_linkscollection';
+	protected $subTemplate = 'mod_linkscollection_linkrow';
 
 	var $baum = array(); // Hilfsvariable für Baumerstellung
 	var $level = 0;
@@ -52,6 +53,7 @@ class Linksammlung extends \Module
 
 			$this->getCategories(); // Kategoriebaum anlegen und Kategorien/Links zählen
 			$this->Template = new \FrontendTemplate($this->strTemplate);
+			$this->Subtemplate = new \FrontendTemplate($this->subTemplate);
 		}
 
 		$this->duration_new = time() - ($GLOBALS['TL_CONFIG']['linkscollection_new_duration'] * 86400);
@@ -173,6 +175,7 @@ class Linksammlung extends \Module
 					'title'       => $objLinks->title,
 					'url'         => 'system/modules/linkscollection/public/go.php?id='.$objLinks->id,
 					'icon'        => \Linkscollection::getFavicon($objLinks->id),
+					'language'    => \Linkscollection::getLanguageIcon($objLinks->language),
 					'new'         => $objLinks->newWindow,
 					'text'        => $objLinks->text,
 					'popular'     => $objLinks->popular,
@@ -190,7 +193,8 @@ class Linksammlung extends \Module
 		$this->Template->menu = $this->Menu();
 		$this->Template->breadcrumb = array_reverse($breadcrumb);
 		$this->Template->categories = $categories;
-		$this->Template->links = $links;
+		$this->Subtemplate->links = $links;
+		$this->Template->links = $this->Subtemplate->parse();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
 		if($this->currentCategory) $this->Template->form = $this->SendlinkForm();
 	}
@@ -221,6 +225,7 @@ class Linksammlung extends \Module
 					'title'       => $objLinks->title,
 					'url'         => 'system/modules/linkscollection/public/go.php?id='.$objLinks->id,
 					'icon'        => \Linkscollection::getFavicon($objLinks->id),
+					'language'    => \Linkscollection::getLanguageIcon($objLinks->language),
 					'new'         => $objLinks->newWindow,
 					'text'        => $objLinks->text,
 					'popular'     => $objLinks->popular,
@@ -236,7 +241,8 @@ class Linksammlung extends \Module
 						                              
 		// Template füllen
 		$this->Template->menu = $this->Menu();
-		$this->Template->toplinks = $links;
+		$this->Subtemplate->links = $links;
+		$this->Template->links = $this->Subtemplate->parse();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
 	}
 
@@ -265,6 +271,7 @@ class Linksammlung extends \Module
 					'title'       => $objLinks->title,
 					'url'         => 'system/modules/linkscollection/public/go.php?id='.$objLinks->id,
 					'icon'        => \Linkscollection::getFavicon($objLinks->id),
+					'language'    => \Linkscollection::getLanguageIcon($objLinks->language),
 					'new'         => $objLinks->newWindow,
 					'text'        => $objLinks->text,
 					'popular'     => $objLinks->popular,
@@ -281,7 +288,8 @@ class Linksammlung extends \Module
 						                              
 		// Template füllen
 		$this->Template->menu = $this->Menu();
-		$this->Template->newlinks = $links;
+		$this->Subtemplate->links = $links;
+		$this->Template->links = $this->Subtemplate->parse();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
 	}
 

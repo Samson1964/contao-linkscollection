@@ -42,4 +42,10 @@ Iconset: 3D Interface Icons (54 icons)
 License: Linkware (Backlink to http://www.aha-soft.com required)
 Commercial usage: Allowed
 
+system/modules/linkscollection/assets/images/flags/*
+Artist: FamFamFam (Mark James)
+License: CC Attribution 4.0
+Commercial usage: Allowed
+Readme file: [readme.txt](http://www.iconarchive.com/icons/famfamfam/flag/readme.txt)
+
 **Frank Hoppe**

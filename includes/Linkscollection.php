@@ -25,6 +25,25 @@ class Linkscollection
 	}
 
 	/**
+	 * Liefert das Sprachicon zurück
+	 * @param string	Sprache des Links
+	 * @return string	Icon als <img ... > oder false
+	 */
+	public static function getLanguageIcon($language)
+	{
+		if($language)
+		{
+			$url = 'system/modules/linkscollection/assets/images/flags/'.$language.'.png';
+			if(file_exists(TL_ROOT.'/'.$url))
+			{
+				return ' <img src="'.$url.'" width=16" height="11" title="Seitensprache: '.$language.'">';
+			}
+		}
+		
+		return '';								                              
+	}
+
+	/**
 	 * Liefert das Favicon zurück
 	 * @param string	ID des Links
 	 * @return string	Icon-Pfad

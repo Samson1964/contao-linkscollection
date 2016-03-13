@@ -55,4 +55,5 @@ TemplateLoader::addFiles(array
 	'mod_linkscollection_link'     => 'system/modules/linkscollection/templates',
 	'mod_linkscollection_toplinks' => 'system/modules/linkscollection/templates',
 	'mod_linkscollection_newlinks' => 'system/modules/linkscollection/templates',
+	'mod_linkscollection_linkrow'  => 'system/modules/linkscollection/templates',
 ));
