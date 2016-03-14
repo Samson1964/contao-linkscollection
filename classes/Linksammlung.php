@@ -79,6 +79,9 @@ class Linksammlung extends \Module
 				case 'newlinks':
 					$this->Newlinks();
 					break;
+				case 'search':
+					$this->Search();
+					break;
 				case 'sendlink':
 					break;
 			}
@@ -294,6 +297,14 @@ class Linksammlung extends \Module
 	}
 
 	/**
+	 * Generate Suche
+	 */
+	protected function search()
+	{
+		$this->Template = new \FrontendTemplate('mod_linkscollection_search');
+	}
+
+	/**
 	 * Generate Linkinfo
 	 */
 	protected function Linkinfo()
@@ -356,6 +367,11 @@ class Linksammlung extends \Module
 			(
 				'title' => 'Neue Links',
 				'link'  => \Controller::generateFrontendUrl($objPage->row(), '/view/newlinks'),
+			),
+			array
+			(
+				'title' => 'Suchen',
+				'link'  => \Controller::generateFrontendUrl($objPage->row(), '/view/search'),
 			),
 			//array
 			//(
