@@ -1,0 +1,298 @@
+0|Baden||ABADEN|L|-1|114||1|
+1|Mannheim||AMANNHEIM||0|14||1|
+2|Heidelberg||AHEIDELBERG||0|13||1|
+3|Odenwald||AODENWALD||0|7||1|
+4|Karlsruhe||AKARLSRUHE||0|18||1|
+5|Pforzheim||APFORZHEIM||0|11||1|
+6|Mittelbaden||AMITTELBADEN||0|15||1|
+7|Ortenau||AORTENAU||0|10||1|
+8|Freiburg||AFREIBURG||0|8||1|
+9|Hochrhein||AHOCHRHEIN||0|6||1|
+10|Schwarzwald||ASCHWARZWALD||0|3||1|
+11|Bodensee||ABODENSEE||0|7||1|
+12|Bayern||ABAYERN|L|-1|353||1|
+13|Mittelfranken||AMITTELFRANKEN||12|66||1|
+14|Mitte||AMITTE||13|15||1|
+15|Nord||ANORD||13|23||1|
+16|Ost||AOST||13|6||1|
+17|Süd||ASUED||13|11||1|
+18|West||AWEST||13|7||1|
+19|München||AMUENCHEN||12|30||1|
+20|Niederbayern||ANIEDERBAYERN||12|23||1|
+21|Oberbayern||AOBERBAYERN||12|67||1|
+22|Ingolstadt-Freising||AINGOLSTADT-FREISING||21|19||1|
+23|Inn-Chiemgau||AINN-CHIEMGAU||21|24||1|
+24|Zugspitze||AZUGSPITZE||21|22||1|
+25|Oberfranken||AOBERFRANKEN||12|49||1|
+26|Bamberg||ABAMBERG||25|7||1|
+27|Bayreuth||ABAYREUTH||25|6||1|
+28|Hof||AHOF||25|13||1|
+29|Coburg/Neustadt||ACOBURG/NEUSTADT||25|8||1|
+30|Marktredwitz||AMARKTREDWITZ||25|6||1|
+31|Lichtenfels/Kronach||ALICHTENFELS/KRONACH||25|6||1|
+32|Oberpfalz||AOBERPFALZ||12|29||1|
+33|Schwaben||ASCHWABEN||12|44||1|
+34|Augsburg||AAUGSBURG||33|17||1|
+35|Mittelschwaben||AMITTELSCHWABEN||33|10||1|
+36|Nordschwaben||ANORDSCHWABEN||33|9||1|
+37|Südschwaben||ASUEDSCHWABEN||33|6||1|
+38|Unterfranken||AUNTERFRANKEN||12|40||1|
+39|Mainspessart||AMAINSPESSART||38|8||1|
+40|Haßberge-Rhön||AHASSBERGE-RHOEN||38|8||1|
+41|Maindreieck||AMAINDREIECK||38|8||1|
+42|Spessart-Untermain||ASPESSART-UNTERMAIN||38|14||1|
+43|Berlin||ABERLIN|L|-1|63||1|
+44|Hamburg||AHAMBURG|L|-1|39||1|
+45|Hessen||AHESSEN|L|-1|198||1|
+46|Nordhessen||ANORDHESSEN||45|30||1|
+47|Osthessen||AOSTHESSEN||45|10||1|
+48|Lahn/Eder||ALAHN/EDER||45|29||1|
+49|Main-Vogelsberg||AMAIN-VOGELSBERG||45|38||1|
+50|Frankfurt/Main||AFRANKFURT/MAIN||45|27||1|
+51|Starkenburg||ASTARKENBURG||45|18||1|
+52|Main-Taunus||AMAIN-TAUNUS||45|18||1|
+53|Mittelrhein||AMITTELRHEIN||45|7||1|
+54|Lahn||ALAHN||45|5||1|
+55|Bergstraße||ABERGSTRASSE||45|11||1|
+56|Nordrhein-Westfalen||ANORDRHEIN-WESTFALEN|L|-1|373||1|
+57|Ruhrgebiet||ARUHRGEBIET||56|88||1|
+58|Bochum||ABOCHUM||57|15||1|
+59|Dortmund||ADORTMUND||57|18||1|
+60|Essen||AESSEN||57|15||1|
+61|Emscher-Lippe||AEMSCHER-LIPPE||57|9||1|
+62|Hamm||AHAMM||57|10||1|
+63|Mülheim||AMUELHEIM||57|1||1|
+64|Vest||AVEST||57|10||1|
+65|Herne||AHERNE||57|8||1|
+66|Niederrhein||ANIEDERRHEIN||56|75||1|
+67|Bergisch-Land||ABERGISCH-LAND||66|12||1|
+68|Düsseldorf||ADUESSELDORF||66|18||1|
+69|Duisburg||ADUISBURG||66|6||1|
+70|Linker Niederrhein||ALINKER NIEDERRHEIN||66|24||1|
+71|Wesel||AWESEL||66|12||1|
+72|Südwestfalen||ASUEDWESTFALEN||56|44||1|
+73|Iserlohn||AISERLOHN||72|8||1|
+74|Oberberg||AOBERBERG||72|8||1|
+75|Hochsauerland||AHOCHSAUERLAND||72|11||1|
+76|Sauerland||ASAUERLAND||72|7||1|
+77|Siegerland||ASIEGERLAND||72|8||1|
+78|Ostwestfalen-Lippe||AOSTWESTFALEN-LIPPE||56|55||1|
+79|Bielefeld||ABIELEFELD||78|13||1|
+80|Hellweg||AHELLWEG||78|10||1|
+81|Lippe||ALIPPE||78|10||1|
+82|Porta||APORTA||78|15||1|
+83|Teutoburger Wald-West||ATEUTOBURGER WALD-WEST||78|6||1|
+84|Münsterland||AMUENSTERLAND||56|43||1|
+85|Steinfurt||ASTEINFURT||84|11||1|
+86|Borken||ABORKEN||84|10||1|
+87|Münster||AMUENSTER||84|19||1|
+88|Mittelrhein||AMITTELRHEIN||56|65||1|
+89|Aachen||AAACHEN||88|13||1|
+90|Bonn||ABONN||88|8||1|
+91|Köln||AKOELN||88|25||1|
+92|Rur-Erft||ARUR-ERFT||88|7||1|
+93|Rhein-Wupper||ARHEIN-WUPPER||88|10||1|
+94|Niedersachsen||ANIEDERSACHSEN|L|-1|141||1|
+95|Hannover||AHANNOVER||94|32||1|
+96|Hannover-Stadt||AHANNOVER-STADT||95|6||1|
+97|Hannover-Land||AHANNOVER-LAND||95|17||1|
+98|Nienburg-Schaumburg||ANIENBURG-SCHAUMBURG||95|6||1|
+99|Braunschweig||ABRAUNSCHWEIG||94|17||1|
+100|Südniedersachsen||ASUEDNIEDERSACHSEN||94|13||1|
+101|Lüneburg||ALUENEBURG||94|25||1|
+102|Oldenburg-Ostfriesland||AOLDENBURG-OSTFRIESLAND||94|22||1|
+103|Südoldenburg||ASUEDOLDENBURG||102|6||1|
+104|Ammerland/Oldenburg-Stadt/Wesermarsch||AAMMERLAND/OLDENBURG-STADT/WESERMARSCH||102|2||1|
+105|Ostfriesland||AOSTFRIESLAND||102|9||1|
+106|Wilhelmshaven/Friesland||AWILHELMSHAVEN/FRIESLAND||102|3||1|
+107|Osnabrück-Emsland||AOSNABRUECK-EMSLAND||94|27||1|
+108|Rheinland-Pfalz||ARHEINLAND-PFALZ|L|-1|104||1|
+109|Rheinland||ARHEINLAND||108|41||1|
+110|Rhein-Ahr-Mosel||ARHEIN-AHR-MOSEL||109|7||1|
+111|Rhein-Nahe||ARHEIN-NAHE||109|13||1|
+112|Rhein-Westerwald||ARHEIN-WESTERWALD||109|7||1|
+113|Trier||ATRIER||109|13||1|
+114|Rheinhessen||ARHEINHESSEN||108|16||1|
+115|Pfalz||APFALZ||108|42||1|
+116|Kaiserslautern||AKAISERSLAUTERN||115|5||1|
+117|Nord-Ost||ANORD-OST||115|19||1|
+118|Landau||ALANDAU||115|5||1|
+119|Pirmasens||APIRMASENS||115|7||1|
+120|Ramstein||ARAMSTEIN||115|4||1|
+121|Saarland||ASAARLAND|L|-1|32||1|
+122|Schleswig-Holstein||ASCHLESWIG-HOLSTEIN|L|-1|54|1|1|
+123|Nord||ANORD||122|9||1|
+124|West||AWEST||122|9|1|1|
+127|Kiel||AKIEL||122|10||1|
+128|Bremen||ABREMEN|L|-1|22|1|1|
+135|Württemberg||AWUERTTEMBERG|L|-1|197||1|
+136|Oberschwaben||AOBERSCHWABEN||135|26||1|
+137|Nord||ANORD||136|9||1|
+138|Süd||ASUED||136|15||1|
+139|Alb-Schwarzwald||AALB-SCHWARZWALD||135|20||1|
+140|Schwarzwald||ASCHWARZWALD||139|4||1|
+141|Zollern/Alb||AZOLLERN/ALB||139|10||1|
+142|Donau/Neckar||ADONAU/NECKAR||139|4||1|
+143|Neckar-Fils||ANECKAR-FILS||135|36||1|
+144|Esslingen/Nürtingen||AESSLINGEN/NUERTINGEN||143|12||1|
+145|Reutlingen/Tübingen||AREUTLINGEN/TUEBINGEN||143|13||1|
+146|Filstal||AFILSTAL||143|9||1|
+147|Ostalb||AOSTALB||135|24||1|
+148|Aalen||AAALEN||147|6||1|
+149|Heidenheim||AHEIDENHEIM||147|5||1|
+150|Schwäbisch Gmünd||ASCHWAEBISCH GMUEND||147|11||1|
+151|Stuttgart||ASTUTTGART||135|47||1|
+152|West||AWEST||151|16||1|
+153|Ost||AOST||151|15||1|
+154|Mitte||AMITTE||151|12||1|
+155|Unterland||AUNTERLAND||135|36||1|
+156|Heilbronn-Hohenlohe||AHEILBRONN-HOHENLOHE||155|20||1|
+157|Ludwigsburg||ALUDWIGSBURG||155|15||1|
+158|Brandenburg||ABRANDENBURG|L|-1|33||1|
+159|Cottbus||ACOTTBUS||158|5||1|
+160|Frankfurt/Oder||AFRANKFURT/ODER||158|7||1|
+161|Potsdam||APOTSDAM||158|13||1|
+162|Mecklenburg-Vorpommern||AMECKLENBURG-VORPOMMERN|L|-1|35||1|
+163|West||AWEST||162|12||1|
+164|Mitte||AMITTE||162|6||1|
+165|Ost||AOST||162|13||1|
+166|Sachsen||ASACHSEN|L|-1|74||1|
+167|Leipzig||ALEIPZIG||166|20||1|
+168|Dresden||ADRESDEN||166|25||1|
+169|Chemnitz||ACHEMNITZ||166|27||1|
+170|Sachsen-Anhalt||ASACHSEN-ANHALT|L|-1|81||1|
+171|Dessau||ADESSAU||170|19||1|
+172|Halle||AHALLE||170|23||1|
+173|Magdeburg||AMAGDEBURG||170|34||1|
+174|Thüringen||ATHUERINGEN|L|-1|43||1|
+175|Nord||ANORD||174|5||1|
+176|Mitte||AMITTE||174|13||1|
+177|Ost||AOST||174|16||1|
+178|Süd||ASUED||174|6||1|
+179|Computer||ACOMPUTER|R|-1|68||1|
+180|Datenbanken||ADATENBANKEN||179|9||1|
+181|Hardware||AHARDWARE||179|3||1|
+182|Schachprogramme||ASCHACHPROGRAMME||179|22||1|
+183|DWZ und Rating||ADWZ UND RATING|R|-1|17||1|
+184|Deutsche Seiten||ADEUTSCHE SEITEN|R|-1|20||1|
+185|Email und Fernschach||AEMAIL UND FERNSCHACH|R|-1|44||1|
+186|FIDE||AFIDE|R|198|4||1|
+187|Internet||AINTERNET|R|-1|75|1|1|
+188|Online-Schach||AONLINE-SCHACH||187|48|1|1|
+189|Newsgroups||ANEWSGROUPS||187|12||1|
+190|Archive||AARCHIVE||187|9||1|
+191|Internationale Seiten||AINTERNATIONALE SEITEN|R|-1|349|1|1|
+192|Österreich||AOESTERREICH||191|131||1|
+193|Schweiz||ASCHWEIZ||191|51||1|
+194|Südtirol||ASUEDTIROL||191|6||1|
+195|Kommerzielle Seiten||AKOMMERZIELLE SEITEN|R|-1|107||1|
+196|Linksammlungen||ALINKSAMMLUNGEN|R|-1|27||1|
+197|Kataloge||AKATALOGE||196|11||1|
+198|Organisationen||AORGANISATIONEN|R|-1|139||1|
+199|Private Homepages||APRIVATE HOMEPAGES|R|-1|77||1|
+200|Sonstige Seiten||ASONSTIGE SEITEN|R|-1|161||1|
+201|Schachvariationen||ASCHACHVARIATIONEN||200|29||1|
+202|Go||AGO||200|13||1|
+203|Chinesisches Schach||ACHINESISCHES SCHACH||200|6||1|
+204|Japanisches Schach||AJAPANISCHES SCHACH||200|6||1|
+205|Spieler||ASPIELER|R|-1|40||1|
+206|Training||ATRAINING|R|-1|77||1|
+207|Endspiele||AENDSPIELE||206|5||1|
+208|Eröffnungen||AEROEFFNUNGEN||206|19||1|
+209|Probleme||APROBLEME||206|6||1|
+210|Strategie||ASTRATEGIE||206|5||1|
+211|Taktik||ATAKTIK||206|6||1|
+212|Turniere||ATURNIERE|R|-1|63|1|1|
+213|Zeitungen||AZEITUNGEN|R|-1|53||1|
+214|Aktuelle Berichte||AAKTUELLE BERICHTE|R|-1|85||1|
+215|Weblogs||AWEBLOGS||199|29||1|
+216|Historie||AHISTORIE||200|31||1|
+217|Europa||AEUROPA||198|53||1|
+218|Asien||AASIEN||198|32||1|
+219|Afrika||AAFRIKA||198|7||1|
+220|Nordamerika||ANORDAMERIKA||198|13||1|
+221|Südamerika||ASUEDAMERIKA||198|12||1|
+222|Australien/Ozeanien||AAUSTRALIEN/OZEANIEN||198|5||1|
+223|Deutschland||ADEUTSCHLAND||217|1||1|
+224|Wikis||AWIKIS||184|3||1|
+225|Turnierverwaltungen||ATURNIERVERWALTUNGEN||179|19||1|
+226|Fotos||AFOTOS||187|4||1|
+227|Weltmeisterschaften||AWELTMEISTERSCHAFTEN||214|21||1|
+228|Deutscher Schachbund||ADEUTSCHER SCHACHBUND|R|-1|12||1|
+229|Wien||AWIEN||192|18||1|
+230|Niederösterreich||ANIEDEROESTERREICH||192|18||1|
+231|Oberösterreich||AOBEROESTERREICH||192|19||1|
+232|Salzburg||ASALZBURG||192|13||1|
+233|Tirol||ATIROL||192|12||1|
+234|Vorarlberg||AVORARLBERG||192|5||1|
+235|Kärnten||AKAERNTEN||192|9||1|
+236|Steiermark||ASTEIERMARK||192|23||1|
+237|Burgenland||ABURGENLAND||192|12||1|
+238|Waldviertel||AWALDVIERTEL||230|4||1|
+239|Weinviertel||AWEINVIERTEL||230|3||1|
+240|Mostviertel||AMOSTVIERTEL||230|8||1|
+241|Industrieviertel||AINDUSTRIEVIERTEL||230|1||1|
+242|Süd||ASUED||231|7||1|
+243|Nord||ANORD||231|5||1|
+244|Mitte||AMITTE||231|6||1|
+245|Stadt Salzburg||ASTADT SALZBURG||232|2||1|
+246|Region Flachgau||AREGION FLACHGAU||232|2||1|
+247|Region Tennengau||AREGION TENNENGAU||232|1||1|
+248|Region Pongau||AREGION PONGAU||232|1||1|
+249|Region Pinzgau||AREGION PINZGAU||232|3||1|
+250|Oberösterreich||AOBEROESTERREICH||232|3||1|
+251|Graz||AGRAZ||236|7||1|
+252|Nord||ANORD||236|3||1|
+253|Süd||ASUED||236|11||1|
+254|Bezirk Eisenstadt und Umgebung||ABEZIRK EISENSTADT UND UMGEBUNG||237|4||1|
+255|Bezirk Neusiedl am See||ABEZIRK NEUSIEDL AM SEE||237|3||1|
+256|Bezirk Mattersburg||ABEZIRK MATTERSBURG||237|2||1|
+257|Bezirk Oberpullendorf||ABEZIRK OBERPULLENDORF||237|1||1|
+258|Bezirk Oberwart||ABEZIRK OBERWART||237|0||1|
+259|Bezirk Güssing||ABEZIRK GUESSING||237|0||1|
+260|Bezirk Jennersdorf||ABEZIRK JENNERSDORF||237|0||1|
+261|Deutsche Jugendmeisterschaften||ADEUTSCHE JUGENDMEISTERSCHAFTEN||214|12||1|
+263|Einzel||AEINZEL||261|9||1|
+264|Deutsche Meisterschaften||ADEUTSCHE MEISTERSCHAFTEN||214|10||1|
+265|Einzel||AEINZEL||264|7||1|
+266|Europacup für Vereinsmannschaften||AEUROPACUP FUER VEREINSMANNSCHAFTEN||214|1||1|
+268|Ländermannschaften||ALAENDERMANNSCHAFTEN||227|2||1|
+269|Europameisterschaften||AEUROPAMEISTERSCHAFTEN||214|20||1|
+270|Ländermannschaften||ALAENDERMANNSCHAFTEN||269|4||1|
+271|Senioren||ASENIOREN||227|5||1|
+272|Dame||ADAME||200|5||1|
+273|Frankreich||AFRANKREICH||191|9||1|
+274|Sammler||ASAMMLER||200|14||1|
+275|EU-Meisterschaften||AEU-MEISTERSCHAFTEN||214|1||1|
+276|Frauen||AFRAUEN||227|4||1|
+277|Jugend||AJUGEND||269|10||1|
+278|Jugend||AJUGEND||227|4||1|
+279|Olympiaden||AOLYMPIADEN||214|10||1|
+280|2008||A2008||279|3||1|
+281|Webforen||AWEBFOREN||199|12||1|
+282|Ländermeisterschaften||ALAENDERMEISTERSCHAFTEN||261|2||1|
+283|Nachwuchs-Olympiaden||ANACHWUCHS-OLYMPIADEN||279|2||1|
+284|Senioren||ASENIOREN||264|3||1|
+285|Großbritannien||AGROSSBRITANNIEN||191|13||1|
+286|USA||AUSA||191|13||1|
+287|Schachmuseen||ASCHACHMUSEEN||200|19||1|
+288|Irland||AIRLAND||191|6||1|
+289|Spanien||ASPANIEN||191|9||1|
+290|Problemschach & Studien||APROBLEMSCHACH & STUDIEN||-1|44||1|
+291|Online-Datenbanken||AONLINE-DATENBANKEN||187|1||1|
+292|Australien||AAUSTRALIEN||191|10||1|
+293|Norwegen||ANORWEGEN||191|5||1|
+294|Schweden||ASCHWEDEN||191|4||1|
+295|Händler||AHAENDLER||195|26||1|
+296|Verlage||AVERLAGE||195|17||1|
+297|Schachtourismus||ASCHACHTOURISMUS||195|18||1|
+298|Luxemburg||ALUXEMBURG||191|6||1|
+299|Niederlande||ANIEDERLANDE||191|12||1|
+300|Ungarn||AUNGARN||191|6||1|
+301|Pokale & Ehrenpreise||APOKALE & EHRENPREISE||195|5||1|
+302|Griechenland||AGRIECHENLAND||191|2||1|
+303|Bibliotheken & Schach||ABIBLIOTHEKEN & SCHACH||200|7||1|
+304|Portugal||APORTUGAL||191|5||1|
+305|Dänemark||ADAENEMARK||191|5||1|
+306|Ost||AOST||122|22||1|
+307|Italien||AITALIEN||191|1|1|1|
