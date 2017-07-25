@@ -8,6 +8,13 @@
  * @license LGPL-3.0+
  */
 
+/**
+ * Register the namespaces
+ */
+ClassLoader::addNamespaces(array
+(
+    'Samson',
+));
 
 /**
  * Register the classes
@@ -42,6 +49,7 @@ ClassLoader::addClasses(array
 	'Nibble\NibbleForms\Field\Text'            => 'system/modules/linkscollection/libraries/nibble/Field/Text.php',
 	'Nibble\NibbleForms\Field\TextArea'        => 'system/modules/linkscollection/libraries/nibble/Field/TextArea.php',
 	'Nibble\NibbleForms\Field\Url'             => 'system/modules/linkscollection/libraries/nibble/Field/Url.php',
+	'Samson\Linksammlung\Helper'               => 'system/modules/linkscollection/includes/Helper.php',
 ));
 
 

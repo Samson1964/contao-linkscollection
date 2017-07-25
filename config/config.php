@@ -13,7 +13,7 @@
 
 // Include Simple HTML Dom Parser
 require_once(TL_ROOT . '/system/modules/linkscollection/includes/simple_html_dom.php');
-		
+
 define(DEFAULT_FAVICON, 'system/modules/linkscollection/assets/images/favicon.png');
 define(NEWICON, '<img src="system/modules/linkscollection/assets/images/new.gif">');
 define(DATE_NEWLINK, 60480000); // 100 Tage
@@ -61,4 +61,9 @@ $GLOBALS['TL_CONFIG']['linkscollection_webarchiv'] = 'https://web.archive.org/we
 $GLOBALS['TL_LINKSCOLLECTION_LINKS_FILTER']['title'] = 'id IN (SELECT id FROM tl_linkscollection_links WHERE title LIKE ?)';
 $GLOBALS['TL_LINKSCOLLECTION_LINKS_FILTER']['url']   = 'id IN (SELECT id FROM tl_linkscollection_links WHERE url LIKE ?)';
 $GLOBALS['TL_LINKSCOLLECTION_LINKS_FILTER']['text']  = 'id IN (SELECT id FROM tl_linkscollection_links WHERE text LIKE ?)';
+
+/**
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['loadFormField'][] = array('Samson\Linksammlung\Helper', 'setCategoriesToForm');
  
