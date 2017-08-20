@@ -15,24 +15,24 @@
  */
 $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 (
- 
-    // Config
-    'config' => array
-    (
-        'dataContainer'               => 'Table',
-        'ptable'                      => 'tl_linkscollection',
-        'enableVersioning'            => true,
-        'sql' => array
-        (
-            'keys' => array
-            (
-                'id'    => 'primary',
-                'pid'   => 'index',
-                'title' => 'index',
-                'url'   => 'index'
-            )
-        ),
-		'onsubmit_callback'			  => array
+
+		// Config
+		'config' => array
+		(
+			'dataContainer'               => 'Table',
+			'ptable'                      => 'tl_linkscollection',
+			'enableVersioning'            => true,
+			'sql' => array
+			(
+				'keys' => array
+				(
+					'id'    => 'primary',
+					'pid'   => 'index',
+					'title' => 'index',
+					'url'   => 'index'
+				)
+			),
+		'onsubmit_callback'  => array
 		(
 			array('tl_linkscollection_links', 'saveRecord')
 		)
@@ -159,11 +159,11 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 		// Eintragsdatum, wird beim ersten Speichern gesetzt
 		'initdate' => array
 		(
- 			'save_callback'           => array
-    		(
-        		array('tl_linkscollection_links', 'saveInitdate')
-    		),
-    		'flag'					  => 5,
+			'save_callback'           => array
+			(
+				array('tl_linkscollection_links', 'saveInitdate')
+			),
+			'flag'					  => 5,
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
  		), 
 		'infobox' => array
@@ -572,23 +572,24 @@ class tl_linkscollection_links extends Backend
 		// URL neu prüfen und Favicon downloaden
 		$arrRow = array
 		(
-			'id'		=> $dc->id,
-			'webarchiv'	=> \Input::post('webarchiv'),
-			'url'		=> \Input::post('url')
+			'id'        => $dc->id,
+			'webarchiv' => \Input::post('webarchiv'),
+			'url'       => \Input::post('url')
 		);
 		$arrRow = \Linkscollection::saveFavicon($arrRow);
 
 		// Update Datenbank
 		$set = array
 		(
-			'statedate' 	=> $arrRow['statedate'],
-			'statecode' 	=> $arrRow['statecode'],
-			'statetext' 	=> $arrRow['statetext'],
-			'problemcount'	=> $w
+			'initdate'      => $dc->activeRecord->initdate ? $dc->activeRecord->initdate : $dc->activeRecord->tstamp,
+			'statedate'     => $arrRow['statedate'],
+			'statecode'     => $arrRow['statecode'],
+			'statetext'     => $arrRow['statetext'],
+			'problemcount'  => $w
 		);
 		$this->Database->prepare("UPDATE tl_linkscollection_links %s WHERE id=?")
-			 	 	   ->set($set)
-				       ->execute($dc->id);
+		               ->set($set)
+		               ->execute($dc->id);
 	}
 
 	public function getDate($arrValue)

@@ -260,10 +260,10 @@ class Linksammlung extends \Module
 
 		// Links laden
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND initdate >= ? ORDER BY initdate DESC, title ASC')
-											->execute(1, $this->duration_new);
+		                                    ->execute(1, $this->duration_new);
 
 		$links = array();
-		if($objLinks->numRows > 1)
+		if($objLinks->numRows > 0)
 		{
 			$class = 'odd';
 			// Datensätze anzeigen
