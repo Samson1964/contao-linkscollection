@@ -1,5 +1,10 @@
 # Linksammlung
 
+Neu: Zurück-Button in Prüfbericht ergänzt + Übersetzungen Bearbeitungsbuttons
+Neu: Zurück-Button in Linkliste ergänzt + Übersetzungen Bearbeitungsbuttons
+Fix: In Linkliste wurde der erste Suchtreffer nicht angezeigt
+Neu: Formfield-Hook ergänzt (noch im Aufbau)
+ 
 ## Version 0.3.0 (2016-03-14)
 
 Add: Frontendsuche

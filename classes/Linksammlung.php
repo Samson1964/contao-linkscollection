@@ -3,12 +3,12 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Leo Feyer
  *
- * @package   Schachbundesliga
+ * @package   Linkscollection
  * @author    Frank Hoppe
  * @license   GNU/LGPL
- * @copyright Frank Hoppe 2016
+ * @copyright Frank Hoppe 2016 - 2017
  */
 
 class Linksammlung extends \Module
@@ -24,10 +24,10 @@ class Linksammlung extends \Module
 	var $numberCategories; // Anzahl der Kategorien
 	var $numberLinks; // Anzahl der Links
 	var $currentCategory; // ID der aktuellen Kategorie
-		
+
 	var $duration_new;
 	var $duration_test;
-	
+
 	/**
 	 * Display a wildcard in the back end
 	 * @return string
@@ -58,7 +58,7 @@ class Linksammlung extends \Module
 
 		$this->duration_new = time() - ($GLOBALS['TL_CONFIG']['linkscollection_new_duration'] * 86400);
 		$this->duration_test = time() - ($GLOBALS['TL_CONFIG']['linkscollection_test_duration'] * 86400);
-		
+
 		return parent::generate(); // Weitermachen mit dem Modul
 	}
 
@@ -67,7 +67,7 @@ class Linksammlung extends \Module
 	 */
 	protected function compile()
 	{
-		global $objPage;		
+		global $objPage;
 
 		if(\Input::get('view'))
 		{
@@ -87,15 +87,15 @@ class Linksammlung extends \Module
 			}
 			return;
 		}
-		
+
 		if(\Input::get('link'))
 		{
 			$this->Linkinfo();
 			return;
 		}
-		
+
 		// Kategorie zuweisen
-		$this->currentCategory = \Input::get('category') + 0; 
+		$this->currentCategory = \Input::get('category') + 0;
 
 		// Breadcrumb-Navigation erstellen
 		$breadcrumb = array();
@@ -112,13 +112,13 @@ class Linksammlung extends \Module
 				'class' => 'last'
 			);
 			$pagetitle[] = $objActual->title;
-			
+
 			// Navigation vervollständigen
 			$pid = $objActual->pid;
 			while($pid > 0)
 			{
 				$objTemp = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ? AND id = ?')
-								   			       ->execute(1, $pid);
+				                                   ->execute(1, $pid);
 				$breadcrumb[] = array
 				(
 					'title' => $objTemp->title,
@@ -137,18 +137,18 @@ class Linksammlung extends \Module
 		}
 
 		// Seitentitel modifizieren
-        if($pagetitle) $objPage->pageTitle = ($objPage->pageTitle ?: $objPage->title) . ' | ' . implode(' | ', array_reverse($pagetitle)); 
-							
+		if($pagetitle) $objPage->pageTitle = ($objPage->pageTitle ?: $objPage->title) . ' | ' . implode(' | ', array_reverse($pagetitle));
+
 		// Unterkategorien laden
 		$objCats = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ? AND pid = ?')
-										   ->execute(1, $this->currentCategory);
+		                                   ->execute(1, $this->currentCategory);
 
 		$categories = array();
 		if($objCats->numRows > 1)
 		{
 			$class = 'odd';
 			// Datensätze anzeigen
-			while($objCats->next()) 
+			while($objCats->next())
 			{
 				$categories[] = array
 				(
@@ -164,14 +164,14 @@ class Linksammlung extends \Module
 
 		// Links laden
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND pid = ? ORDER BY popular DESC, title ASC')
-											->execute(1, $this->currentCategory);
+		                                    ->execute(1, $this->currentCategory);
 
 		$links = array();
 		if($objLinks->numRows > 1)
 		{
 			$class = 'odd';
 			// Datensätze anzeigen
-			while($objLinks->next()) 
+			while($objLinks->next())
 			{
 				$links[] = array
 				(
@@ -207,21 +207,21 @@ class Linksammlung extends \Module
 	 */
 	protected function Toplinks()
 	{
-		global $objPage;		
+		global $objPage;
 
 		$this->Template = new \FrontendTemplate('mod_linkscollection_toplinks');
-		
+
 		// Links laden
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? ORDER BY hits DESC, title ASC')
-											->limit(100)
-											->execute(1);
+		                                    ->limit(100)
+		                                    ->execute(1);
 
 		$links = array();
 		if($objLinks->numRows > 1)
 		{
 			$class = 'odd';
 			// Datensätze anzeigen
-			while($objLinks->next()) 
+			while($objLinks->next())
 			{
 				$links[] = array
 				(
@@ -241,7 +241,7 @@ class Linksammlung extends \Module
 				$class = ($class == 'odd') ? 'even' : 'odd';
 			}
 		}
-						                              
+
 		// Template füllen
 		$this->Template->menu = $this->Menu();
 		$this->Subtemplate->links = $links;
@@ -254,10 +254,10 @@ class Linksammlung extends \Module
 	 */
 	protected function Newlinks()
 	{
-		global $objPage;		
+		global $objPage;
 
 		$this->Template = new \FrontendTemplate('mod_linkscollection_newlinks');
-		
+
 		// Links laden
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND initdate >= ? ORDER BY initdate DESC, title ASC')
 											->execute(1, $this->duration_new);
@@ -267,7 +267,7 @@ class Linksammlung extends \Module
 		{
 			$class = 'odd';
 			// Datensätze anzeigen
-			while($objLinks->next()) 
+			while($objLinks->next())
 			{
 				$links[] = array
 				(
@@ -288,7 +288,7 @@ class Linksammlung extends \Module
 				$class = ($class == 'odd') ? 'even' : 'odd';
 			}
 		}
-						                              
+
 		// Template füllen
 		$this->Template->menu = $this->Menu();
 		$this->Subtemplate->links = $links;
@@ -309,13 +309,13 @@ class Linksammlung extends \Module
 	 */
 	protected function Linkinfo()
 	{
-		global $objPage;		
+		global $objPage;
 
 		$this->Template = new \FrontendTemplate('mod_linkscollection_link');
-		
+
 		// Link laden
 		$objLink = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND id = ?')
-										   ->execute(1, \Input::get('link'));
+		                                   ->execute(1, \Input::get('link'));
 
 		if($objLink->numRows)
 		{
@@ -339,7 +339,7 @@ class Linksammlung extends \Module
 			$this->Template->problemcount = $objLink->problemcount;
 			$this->Template->webarchiv = $objLink->webarchiv;
 		}
-						                              
+
 		// Template füllen
 		$this->Template->menu = $this->Menu();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
@@ -349,7 +349,7 @@ class Linksammlung extends \Module
 	protected function Menu()
 	{
 		global $objPage;
-		
+
 		// Menü erstellen
 		$menu = array
 		(
@@ -379,54 +379,54 @@ class Linksammlung extends \Module
 			//	'link'  => \Controller::generateFrontendUrl($objPage->row(), '/view/sendlink'),
 			//),
 		);
-		return $menu;								                              
+		return $menu;
 	}
-		
+
 	/**
-	 * Generiert eine Baumstruktur aller Kategorien 
+	 * Generiert eine Baumstruktur aller Kategorien
 	 */
 	protected function getCategories()
 	{
 		// Kategorien laden
 		$objCats = \Database::getInstance()->prepare('SELECT id,pid,title FROM tl_linkscollection WHERE published = ? ORDER BY title ASC')
-										   ->execute(1);
-	    // Kategoriebaum sichern
+		                                   ->execute(1);
+		// Kategoriebaum sichern
 		if($objCats->numRows > 1)
-		{	
+		{
 			// Datensätze speichern
-			while($objCats->next()) 
+			while($objCats->next())
 			{
-		    	$this->baum[$objCats->pid][$objCats->id] = $objCats->title;
+				$this->baum[$objCats->pid][$objCats->id] = $objCats->title;
 			}
 		}
-		
-		$this->getTree(0); // Baum $this->tree anlegen 
-		
+
+		$this->getTree(0); // Baum $this->tree anlegen
+
 		// Jetzt noch Links zählen
 		$objLinks = \Database::getInstance()->prepare('SELECT id FROM tl_linkscollection_links WHERE published = ?')
-											->execute(1);
-		
+		                                    ->execute(1);
+
 		$this->numberCategories = $objCats->numRows; // Anzahl der Kategorien
 		$this->numberLinks = $objLinks->numRows; // Anzahl der Links
-		
+
 	}
 
-	public function getTree($id) 
+	public function getTree($id)
 	{
 		// Generiert den Baum ab der gewünschten ID
-		if($this->baum[$id]) 
+		if($this->baum[$id])
 		{
-		  	while(list($key,$val) = each($this->baum[$id]))
-		  	{
-		    	$this->tree[$key] = str_repeat("- ", $this->level) . $val;
-		    	$this->level++;
-		    	$this->getTree($key);
-		    	$this->level--;
+			while(list($key,$val) = each($this->baum[$id]))
+			{
+				$this->tree[$key] = str_repeat("- ", $this->level) . $val;
+				$this->level++;
+				$this->getTree($key);
+				$this->level--;
 			}
 			reset($this->baum[$id]);
 		}
 	}
-	
+
 	protected function SendlinkForm()
 	{
 		$dca = array
@@ -438,11 +438,11 @@ class Linksammlung extends \Module
 				'eval'		=> array('mandatory'=>true, 'class'=>'form-control')
 			),
 			'email' => array
-        	(
-                'label'         => 'E-Mail',
-                'inputType'     => 'text',
-                'eval'          => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')             
-        	),
+			(
+				'label'         => 'E-Mail',
+				'inputType'     => 'text',
+				'eval'          => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')
+			),
 			'title' => array
 			(
 				'label'		=> 'Titel des Links',
@@ -453,7 +453,7 @@ class Linksammlung extends \Module
 			(
 				'label'		=> 'URL des Links',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>true, 'rgxp'=>'url', 'class'=>'form-control')		
+				'eval'		=> array('mandatory'=>true, 'rgxp'=>'url', 'class'=>'form-control')
 			),
 			'category' => array
 			(
@@ -461,7 +461,7 @@ class Linksammlung extends \Module
 				'inputType' => 'select',
 				'options'   => array_keys($this->tree),
 				'reference' => $this->tree,
-				'eval'		=> array('mandatory'=>true, 'choosen'=>true, 'class'=>'form-control')		
+				'eval'		=> array('mandatory'=>true, 'choosen'=>true, 'class'=>'form-control')
 			),
 			'description' => array
 			(
@@ -476,9 +476,9 @@ class Linksammlung extends \Module
 				'inputType' => 'submit'
 			)
 		);
-		
+
 		$frm = new Formular('linkform');
-		$frm->setDCA($dca);	
+		$frm->setDCA($dca);
 		$frm->setConfig('generateFormat','<div>%label %field %error </div>');
 		$frm->setConfig('attributes',array('tableless'=>true));
 		$frm->category = array($this->currentCategory);
@@ -512,10 +512,10 @@ class Linksammlung extends \Module
 			'email' => $data['email']
 		);
 		$objLink = \Database::getInstance()->prepare('INSERT INTO tl_linkscollection_links %s')
-										   ->set($set)
-										   ->execute();
+		                                   ->set($set)
+		                                   ->execute();
 
-		\System::log('[Linkscollection] New Link submitted: '.$data['title'].' ('.$data['url'].')', __CLASS__.'::'.__FUNCTION__, TL_CRON); 
+		\System::log('[Linkscollection] New Link submitted: '.$data['title'].' ('.$data['url'].')', __CLASS__.'::'.__FUNCTION__, TL_CRON);
 
 		// Email an Admin verschicken
 		$objEmail = new \Email();
@@ -531,10 +531,10 @@ class Linksammlung extends \Module
 
 		// Add the comment details
 		$objEmail->text = sprintf($GLOBALS['TL_LANG']['MSC']['linkscollection_message'],
-								  $data['name'] . ' (' . $data['email'] . ')',
-								  $strComment,
-								  \Idna::decode(\Environment::get('base')) . \Environment::get('request'),
-								  \Idna::decode(\Environment::get('base')) . 'contao/main.php?do=linkscollection&table=tl_linkscollection_links&act=edit&id=' . $objLink->insertId);
+		                          $data['name'] . ' (' . $data['email'] . ')',
+		                          $strComment,
+		                          \Idna::decode(\Environment::get('base')) . \Environment::get('request'),
+		                          \Idna::decode(\Environment::get('base')) . 'contao/main.php?do=linkscollection&table=tl_linkscollection_links&act=edit&id=' . $objLink->insertId);
 
 		//$objEmail->html = $content;
 		//$objEmail->sendCc(array
@@ -542,10 +542,10 @@ class Linksammlung extends \Module
 		//	'Herbert Bastian <praesident@schachbund.de>',
 		//	'Uwe Bönsch <sportdirektor@schachbund.de>',
 		//	'DSB-Presse <presse@schachbund.de>'
-		//)); 
-		$objEmail->sendTo(array($GLOBALS['TL_ADMIN_NAME'].' <'.$GLOBALS['TL_ADMIN_EMAIL'].'>'));  
-  	}
-	
+		//));
+		$objEmail->sendTo(array($GLOBALS['TL_ADMIN_NAME'].' <'.$GLOBALS['TL_ADMIN_EMAIL'].'>'));
+	}
+
 	protected function SendProblemForm($object)
 	{
 		$dca = array
@@ -572,11 +572,11 @@ class Linksammlung extends \Module
 				'eval'		=> array('mandatory'=>true, 'class'=>'form-control')
 			),
 			'email' => array
-        	(
-                'label'     => 'E-Mail',
-                'inputType' => 'text',
-                'eval'      => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')             
-        	),
+			(
+				'label'     => 'E-Mail',
+				'inputType' => 'text',
+				'eval'      => array('mandatory'=>true, 'rgxp'=>'email', 'class'=>'form-control')
+			),
 			'new_title' => array
 			(
 				'label'		=> 'Neuer Titel',
@@ -587,14 +587,14 @@ class Linksammlung extends \Module
 			(
 				'label'		=> 'Neue URL',
 				'inputType' => 'text',
-				'eval'		=> array('mandatory'=>false, 'rgxp'=>'url', 'class'=>'form-control')		
+				'eval'		=> array('mandatory'=>false, 'rgxp'=>'url', 'class'=>'form-control')
 			),
 			'error' => array
 			(
 				'label'		=> 'Fehler',
 				'inputType' => 'select',
 				'options'   => &$GLOBALS['TL_LANG']['linkscollection']['errors'],
-				'eval'		=> array('mandatory'=>false, 'choosen'=>true, 'class'=>'form-control')		
+				'eval'		=> array('mandatory'=>false, 'choosen'=>true, 'class'=>'form-control')
 			),
 			'comment' => array
 			(
@@ -609,9 +609,9 @@ class Linksammlung extends \Module
 				'inputType' => 'submit'
 			)
 		);
-		
+
 		$frm = new Formular('linkform');
-		$frm->setDCA($dca);	
+		$frm->setDCA($dca);
 		$frm->setConfig('generateFormat','<div>%label %field %error </div>');
 		$frm->setConfig('attributes',array('tableless'=>true));
 		$frm->category = array($GLOBALS['TL_LANG']['linkscollection']['errors'][0]);
@@ -630,7 +630,7 @@ class Linksammlung extends \Module
 	protected function saveProblemlink($data)
 	{
 		print_r($data);
-		
+
 		// Meldung zusammenbauen
 		$zeit = time();
 		$content = 'Titel: '.$data['title']."\n";
@@ -644,7 +644,7 @@ class Linksammlung extends \Module
 		$content .= 'Gemeldet am '.date("d.m.Y, H:i:s", $zeit);
 
 		$objLink = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE id = ?')
-										   ->execute($data['id']);
+		                                   ->execute($data['id']);
 
 		if($objLink->numRows)
 		{
@@ -658,12 +658,12 @@ class Linksammlung extends \Module
 				'problemcount' => $anzahl
 			);
 			$objLink = \Database::getInstance()->prepare('UPDATE tl_linkscollection_links %s WHERE id = ?')
-											   ->set($set)
-											   ->execute($data['id']);
+			                                   ->set($set)
+			                                   ->execute($data['id']);
 		}
 
-		\System::log('[Linkscollection] Error Link ID '.$data['id'].' submitted: '.$data['title'].' ('.$data['url'].')', __CLASS__.'::'.__FUNCTION__, TL_CRON); 
-		
+		\System::log('[Linkscollection] Error Link ID '.$data['id'].' submitted: '.$data['title'].' ('.$data['url'].')', __CLASS__.'::'.__FUNCTION__, TL_CRON);
+
 		// Email an Admin verschicken
 		$objEmail = new \Email();
 		$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
@@ -672,10 +672,10 @@ class Linksammlung extends \Module
 
 		// Add the comment details
 		$objEmail->text = sprintf($GLOBALS['TL_LANG']['MSC']['linkscollection_error_message'],
-								  $data['name'] . ' (' . $data['email'] . ')',
-								  $content,
-								  \Idna::decode(\Environment::get('base')) . \Environment::get('request'),
-								  \Idna::decode(\Environment::get('base')) . 'contao/main.php?do=linkscollection&table=tl_linkscollection_links&act=edit&id=' . $data['id']);
+		                          $data['name'] . ' (' . $data['email'] . ')',
+		                          $content,
+		                          \Idna::decode(\Environment::get('base')) . \Environment::get('request'),
+		                          \Idna::decode(\Environment::get('base')) . 'contao/main.php?do=linkscollection&table=tl_linkscollection_links&act=edit&id=' . $data['id']);
 
 		//$objEmail->html = $content;
 		//$objEmail->sendCc(array
@@ -683,73 +683,73 @@ class Linksammlung extends \Module
 		//	'Herbert Bastian <praesident@schachbund.de>',
 		//	'Uwe Bönsch <sportdirektor@schachbund.de>',
 		//	'DSB-Presse <presse@schachbund.de>'
-		//)); 
-		$objEmail->sendTo(array($GLOBALS['TL_ADMIN_NAME'].' <'.$GLOBALS['TL_ADMIN_EMAIL'].'>'));  
-  	}
-	
+		//));
+		$objEmail->sendTo(array($GLOBALS['TL_ADMIN_NAME'].' <'.$GLOBALS['TL_ADMIN_EMAIL'].'>'));
+	}
+
 	protected function SendlinkFormHaste()
 	{
 
-    // First param is the form id
-    // Second is either GET or POST
-    // Third is a callable that decides when your form is submitted
-    // You can pass an optional fourth parameter (true by default) to turn the form into a table based one
-    $objForm = new \Haste\Form\Form('someid', 'POST', function($objHaste) {
-        return \Input::post('FORM_SUBMIT') === $objHaste->getFormId();
-    });
-
-    // A form needs an action. By default it's the current request URI you
-    // place your Haste form on, but you can either set your own URI:
-    $objForm->setFormActionFromUri();
-
-    // Now let's add form fields:
-    $objForm->addFormField('year', array(
-        'label'         => 'Year',
-        'inputType'     => 'text',
-        'eval'          => array('mandatory'=>true, 'rgxp'=>'digit')
-    ));
-
-    // Need a checkbox?
-    $objForm->addFormField('termsOfUse', array(
-        'label'         => array('This is the <legend>', 'This is the <label>'),
-        'inputType'     => 'checkbox',
-        'eval'          => array('mandatory'=>true)
-    ));
-
-    // Let's add  a submit button
-    $objForm->addFormField('submit', array(
-      'label'     => 'Submit form',
-      'inputType' => 'submit'
-    ));
-
-    // Automatically add the FORM_SUBMIT and REQUEST_TOKEN hidden fields.
-    // DO NOT use this method with generate() as the "form" template provides those fields by default.
-    $objForm->addContaoHiddenFields();
-
-    // For the ease of use we do provide two helpers for the submit button and captcha field
-    $objForm->addSubmitFormField('submit', 'Submit form');
-    $objForm->addCaptchaFormField('captcha');
-
-    // validate() also checks whether the form has been submitted
-    if ($objForm->validate()) {
-
-        // Get the submitted and parsed data of a field (only works with POST):
-        $arrData = $objForm->fetch('year');
-
-        // Get all the submitted and parsed data (only works with POST):
-        $arrData = $objForm->fetchAll();
-
-        // For your convenience you can also use a callable to walk over all widgets
-        $arrData = $objForm->fetchAll(function($strName, $objWidget) {
-            return \Input::postRaw($strName);
-        });
-
-        // Read from POST: \Input::post('year');
-        // Read from GET: \Input::get('year');
-    }
-
-    // Get the form as string
-    return $objForm->generate();
+		// First param is the form id
+		// Second is either GET or POST
+		// Third is a callable that decides when your form is submitted
+		// You can pass an optional fourth parameter (true by default) to turn the form into a table based one
+		$objForm = new \Haste\Form\Form('someid', 'POST', function($objHaste) {
+		    return \Input::post('FORM_SUBMIT') === $objHaste->getFormId();
+		});
+		
+		// A form needs an action. By default it's the current request URI you
+		// place your Haste form on, but you can either set your own URI:
+		$objForm->setFormActionFromUri();
+		
+		// Now let's add form fields:
+		$objForm->addFormField('year', array(
+		    'label'         => 'Year',
+		    'inputType'     => 'text',
+		    'eval'          => array('mandatory'=>true, 'rgxp'=>'digit')
+		));
+		
+		// Need a checkbox?
+		$objForm->addFormField('termsOfUse', array(
+		    'label'         => array('This is the <legend>', 'This is the <label>'),
+		    'inputType'     => 'checkbox',
+		    'eval'          => array('mandatory'=>true)
+		));
+		
+		// Let's add  a submit button
+		$objForm->addFormField('submit', array(
+		  'label'     => 'Submit form',
+		  'inputType' => 'submit'
+		));
+		
+		// Automatically add the FORM_SUBMIT and REQUEST_TOKEN hidden fields.
+		// DO NOT use this method with generate() as the "form" template provides those fields by default.
+		$objForm->addContaoHiddenFields();
+		
+		// For the ease of use we do provide two helpers for the submit button and captcha field
+		$objForm->addSubmitFormField('submit', 'Submit form');
+		$objForm->addCaptchaFormField('captcha');
+		
+		// validate() also checks whether the form has been submitted
+		if ($objForm->validate()) {
+		
+		    // Get the submitted and parsed data of a field (only works with POST):
+		    $arrData = $objForm->fetch('year');
+		
+		    // Get all the submitted and parsed data (only works with POST):
+		    $arrData = $objForm->fetchAll();
+		
+		    // For your convenience you can also use a callable to walk over all widgets
+		    $arrData = $objForm->fetchAll(function($strName, $objWidget) {
+		        return \Input::postRaw($strName);
+		    });
+		
+		    // Read from POST: \Input::post('year');
+		    // Read from GET: \Input::get('year');
+		}
+		
+		// Get the form as string
+		return $objForm->generate();
 
 	}
 
@@ -761,12 +761,12 @@ class Linksammlung extends \Module
 		/* Text field with custom class and max length attribute */
 		$form->addField
 		(
-			'text_field', 
-			'text', 
+			'text_field',
+			'text',
 			array
 			(
-			    'class'      => 'testy classes',
-    			'max_length' => 20
+				'class'      => 'testy classes',
+				'max_length' => 20
 			)
 		);
 
@@ -791,7 +791,7 @@ $form->addField('choice', 'radio', array(
 /* If the form is valid, do something */
 if ($form->validate()) {
     echo "Form has validated";
-} 
+}
  return $form->render();
 	}
 }

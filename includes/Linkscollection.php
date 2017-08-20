@@ -12,7 +12,7 @@
 
 class Linkscollection
 {
-	
+
 	/**
 	 * Liefert die URL zurück, ggfs. mit Prefix Webarchiv
 	 * @param string	ID des Links
@@ -39,8 +39,8 @@ class Linkscollection
 				return ' <img src="'.$url.'" width=16" height="11" title="Seitensprache: '.$language.'">';
 			}
 		}
-		
-		return '';								                              
+
+		return '';
 	}
 
 	/**
@@ -63,9 +63,9 @@ class Linkscollection
 			}
 		}
 
-		return $string;								                              
+		return $string;
 	}
-	
+
 	/**
 	 * Download des Favicons und Informationen zur URL-Erreichbarkeit
 	 * @param array		Datensatz des Links
@@ -74,16 +74,16 @@ class Linkscollection
 	public static function saveFavicon($arrRow)
 	{
 
-    	// URL prüfen und ggfs. Favicon neu laden
-        $objRequest = new Request();
+		// URL prüfen und ggfs. Favicon neu laden
+		$objRequest = new Request();
 		$objRequest->send(self::getWeblink($arrRow['url'], $arrRow['webarchiv']));
 
-        $strError = '';
-        $language = '';
-        
-        if(!$objRequest->hasError())
-        {
-        	// Kein Fehler, deshalb Favicon-Link ermitteln
+		$strError = '';
+		$language = '';
+
+		if(!$objRequest->hasError())
+		{
+			// Kein Fehler, deshalb Favicon-Link ermitteln
 			$favicon = new FaviconDownloader(self::getWeblink($arrRow['url'], $arrRow['webarchiv']));
 			if($favicon->icoExists)
 			{
@@ -91,11 +91,11 @@ class Linkscollection
 			    $filename = TL_ROOT.'/system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
 			    $icon = 'system/modules/linkscollection/assets/favicons/'.$arrRow['id'].'.'.$favicon->icoType;
 			    file_put_contents($filename, $favicon->icoData);
-			}			
+			}
 			// Sprache der URL ermitteln
 			$language = self::checkLanguage($objRequest->response);
-		        
-        }
+
+		}
 
 		// Datenbank aktualisieren
 		$arrRow['statedate'] = time();
@@ -110,12 +110,12 @@ class Linkscollection
 			'language'  => $arrRow['language']
 		);
 		\Database::getInstance()->prepare('UPDATE tl_linkscollection_links %s WHERE id = ?')
-								->set($set)
-								->execute($arrRow['id']);
-		
+		                        ->set($set)
+		                        ->execute($arrRow['id']);
+
 		return $arrRow;
 	}
-	
+
 	/**
 	 * Liest die Sprache aus dem DOM
 	 * @param string	HTML der Webseite
@@ -140,7 +140,7 @@ class Linkscollection
 			}
 		}
 
-		return $return;		
+		return $return;
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Linkscollection
 			$x++;
 		}
 
-		$string = implode(' > ', array_reverse($breadcrumb));		
+		$string = implode(' > ', array_reverse($breadcrumb));
 		return $string;
 	}
 
@@ -178,51 +178,59 @@ class Linkscollection
 			return '';
 		}
 
-		$content = '<div id="tl_listing" class="tl_listing_container"><ul class="tl_listing">';
+		$content = '
+		<div id="tl_buttons">
+			<a href="contao/main.php?do=linkscollection&amp;rt='.REQUEST_TOKEN.'" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> 
+		</div>';
+
+		$content .= '<div id="tl_listing" class="tl_listing_container"><ul class="tl_listing">';
 
 		// Veröffentlichte Kategorien/Links laden
 		$objCats = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ?')
-											->execute(1);
+		                                   ->execute(1);
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ?')
-											->execute(1);
-		
+		                                    ->execute(1);
+
 		// Ausgabe des 1. Kopfes
 		$content .= '
-	  	<li class="tl_linkanalyse_head">
-	  		<div class="tl_left">
-	  			<label>Veröffentlicht:</label>
-	  			<b>'.$objCats->numRows.'</b> Kategorien und <b>'.$objLinks->numRows.'</b> Links
-	  		</div>
-	  		<div class="tl_right">&nbsp;</div>
-	  		<div style="clear:both"></div>
-	  	</li>';
+		<li class="tl_linkanalyse_head">
+			<div class="tl_left">
+				<label>Veröffentlicht:</label>
+				<b>'.$objCats->numRows.'</b> Kategorien und <b>'.$objLinks->numRows.'</b> Links
+			</div>
+			<div class="tl_right">&nbsp;</div>
+			<div style="clear:both"></div>
+		</li>';
 
 		// Fehlerhafte Links
 		$content .= '
-	  	<li class="tl_linkanalyse_top">
-	  		<div class="tl_left">
-	  			Fehlerhafte Links
-	  		</div>
-	  		<div class="tl_right">&nbsp;</div>
-	  		<div style="clear:both"></div>
-	  	</li>';
+		<li class="tl_linkanalyse_top">
+			<div class="tl_left">
+				Fehlerhafte Links
+			</div>
+			<div class="tl_right">&nbsp;</div>
+			<div style="clear:both"></div>
+		</li>';
 
 		if($objLinks->numRows > 1)
 		{
-			while($objLinks->next()) 
+			while($objLinks->next())
 			{
 				if($objLinks->problemcount > 0)
 				{
+					$titel_edit  = str_replace('%s', $objLinks->id, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit']);
+					$titel_edit_header  = str_replace('%s', $objLinks->pid, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit_header']);
+
 					$content .= '
-			  		<li onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_linkanalyse_row" style="">
+					<li onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_linkanalyse_row" style="">
 						<div class="tl_left">
-							<strong>'.$objLinks->title.'</strong> ('.$objLinks->url.') 
-							<br><i>'.date("d.m.Y, H:i", $objLinks->problemdate).'</i> 
-							<i>- '.$objLinks->problemcount.' Meldungen</i> 
-						</div> 
+							<strong>'.$objLinks->title.'</strong> ('.$objLinks->url.')
+							<br><i>'.date("d.m.Y, H:i", $objLinks->problemdate).'</i>
+							<i>- '.$objLinks->problemcount.' Meldungen</i>
+						</div>
 						<div class="tl_right">
-							<a class="edit" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id='.$objLinks->id.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/default/images/edit.gif"></a>
-							<a class="editheader" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id='.$objLinks->pid.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="16" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/default/images/header.gif"></a>
+							<a class="edit" title="'.$titel_edit.'" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id='.$objLinks->id.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/default/images/edit.gif"></a>
+							<a class="editheader" title="'.$titel_edit_header.'" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id='.$objLinks->pid.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="16" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/default/images/header.gif"></a>
 						</div>
 						<div style="clear:both"></div>
 					</li>';
@@ -232,45 +240,48 @@ class Linkscollection
 
 		// Unveröffentlichte Kategorien/Links laden
 		$objCats = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ?')
-											->execute('');
+		                                   ->execute('');
 		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ?')
-											->execute('');
-		
+		                                    ->execute('');
+
 		// Unveröffentlichte Links
 		$content .= '
-	  	<li class="tl_linkanalyse_head">
-	  		<div class="tl_left">
-	  			<label>Unveröffentlicht:</label>
-	  			<b>'.$objCats->numRows.'</b> Kategorien und <b>'.$objLinks->numRows.'</b> Links
-	  		</div>
-	  		<div class="tl_right">&nbsp;</div>
-	  		<div style="clear:both"></div>
-	  	</li>';
+		<li class="tl_linkanalyse_head">
+			<div class="tl_left">
+				<label>Unveröffentlicht:</label>
+				<b>'.$objCats->numRows.'</b> Kategorien und <b>'.$objLinks->numRows.'</b> Links
+			</div>
+			<div class="tl_right">&nbsp;</div>
+			<div style="clear:both"></div>
+		</li>';
 
 		$content .= '
-	  	<li class="tl_linkanalyse_top">
-	  		<div class="tl_left">
-	  			Unveröffentlichte Links
-	  		</div>
-	  		<div class="tl_right">&nbsp;</div>
-	  		<div style="clear:both"></div>
-	  	</li>';
+		<li class="tl_linkanalyse_top">
+			<div class="tl_left">
+				Unveröffentlichte Links
+			</div>
+			<div class="tl_right">&nbsp;</div>
+			<div style="clear:both"></div>
+		</li>';
 
 		// Unveröffentlichte ausgeben
-		if($objLinks->numRows > 1)
+		if($objLinks->numRows > 0)
 		{
-			while($objLinks->next()) 
+			while($objLinks->next())
 			{
+				$titel_edit  = str_replace('%s', $objLinks->id, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit']);
+				$titel_edit_header  = str_replace('%s', $objLinks->pid, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit_header']);
+
 				$content .= '
-			  	<li onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_linkanalyse_row" style="">
+				<li onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_linkanalyse_row" style="">
 					<div class="tl_left">
-						<strong>'.$objLinks->title.'</strong> ('.$objLinks->url.') 
-						<br><i>'.date("d.m.Y H:i", $objLinks->initdate).'</i> 
-						<i>von '.$objLinks->name.'</i> 
-					</div> 
+						<strong>'.$objLinks->title.'</strong> ('.$objLinks->url.')
+						<br><i>'.date("d.m.Y H:i", $objLinks->initdate).'</i>
+						<i>von '.$objLinks->name.'</i>
+					</div>
 					<div class="tl_right">
-						<a class="edit" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id='.$objLinks->id.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/default/images/edit.gif"></a>
-						<a class="editheader" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id='.$objLinks->pid.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="16" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/default/images/header.gif"></a>
+						<a class="edit" title="'.$titel_edit.'" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id='.$objLinks->id.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/default/images/edit.gif"></a>
+						<a class="editheader" title="'.$titel_edit_header.'" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id='.$objLinks->pid.'&amp;rt='.\Input::get('rt').'&amp;ref='.\Input::get('ref').'"><img width="16" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/default/images/header.gif"></a>
 					</div>
 					<div style="clear:both"></div>
 				</li>';
@@ -293,7 +304,7 @@ class Linkscollection
 		// Hilfsarrays für Filter/Suche
 		$where = array();
 		$value = array();
-		
+
 		// Standardabfrage
 		$query = "SELECT * FROM tl_linkscollection_links";
 
@@ -309,7 +320,7 @@ class Linkscollection
 		// Session laden
 		$session = \Session::getInstance()->getData();
 		$filter = 'tl_linkscollection_list'; // Sessionname
-		
+
 		// Filter, Suche und Limit setzen
 		if (\Input::post('FORM_SUBMIT') == 'tl_filters' || \Input::post('FORM_SUBMIT') == 'tl_filters_limit')
 		{
@@ -324,8 +335,8 @@ class Linkscollection
 				try
 				{
 					\Database::getInstance()->prepare("SELECT * FROM tl_linkscollection_links WHERE ".\Input::post('tl_field', true)." REGEXP ?")
-								   			->limit(1)
-								   			->execute(\Input::postRaw('tl_value'));
+					                        ->limit(1)
+					                        ->execute(\Input::postRaw('tl_value'));
 
 					$session['search'][$filter]['value'] = \Input::postRaw('tl_value');
 				}
@@ -385,23 +396,25 @@ class Linkscollection
 
 		// Execute query
 		$objLinks = \Database::getInstance()->prepare($query)
-											->limit(500)
-											->execute($value);
+		                                    ->limit(500)
+		                                    ->execute($value);
 
 		$arrLinks = array();
-		if($objLinks->numRows > 1)
+		if($objLinks->numRows > 0)
 		{
 			while($objLinks->next())
 			{
 				$arrLinks[] = array
 				(
-					'id'		=> $objLinks->id,
-					'pid'		=> $objLinks->pid,
-					'title'		=> $objLinks->title,
-					'url'		=> $objLinks->url,
-					'text'		=> $objLinks->text,
-					'ref'       => \Input::get('ref'),
-					'icon'		=> $this->getFavicon($objLinks->id)
+					'id'           => $objLinks->id,
+					'pid'          => $objLinks->pid,
+					'title'        => $objLinks->title,
+					'url'          => $objLinks->url,
+					'text'         => $objLinks->text,
+					'ref'          => \Input::get('ref'),
+					'icon'         => $this->getFavicon($objLinks->id),
+					'edit'         => str_replace('%s', $objLinks->id, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit']),
+					'edit_header'  => str_replace('%s', $objLinks->pid, $GLOBALS['TL_LANG']['tl_linkscollection_list']['edit_header']),
 				);
 			}
 		}

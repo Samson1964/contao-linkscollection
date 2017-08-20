@@ -11,9 +11,9 @@
 
 			<div class="tl_search tl_subpanel">
 				<strong><?= $this->search ?>:</strong>
-			  	<select name="tl_field" class="tl_select<?= $this->searchClass ?>"><?= $this->searchOptions ?></select>
-  				<span>=</span>
-  				<input type="text" name="tl_value" class="tl_text<?= $this->searchClass ?>" value="<?= $this->keywords ?>">
+				<select name="tl_field" class="tl_select<?= $this->searchClass ?>"><?= $this->searchOptions ?></select>
+				<span>=</span>
+				<input type="text" name="tl_value" class="tl_text<?= $this->searchClass ?>" value="<?= $this->keywords ?>">
 			</div>
 
 			<div class="clear"></div>
@@ -22,13 +22,17 @@
 	</div>
 </form>
 
+<div id="tl_buttons">
+	<a href="contao/main.php?do=linkscollection&amp;rt=<?= REQUEST_TOKEN ?>" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()"><?= $GLOBALS['TL_LANG']['MSC']['backBT'] ?></a> 
+</div>
+
 <div class="tl_listing_container parent_view">
 
 	<div onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_header click2edit toggle_select" style="">
-		<table class="tl_header_table">
-			<tbody><tr>
-				<td><span class="tl_label">Linkliste:</span> </td>
-				<td><?= $this->numRows ?></td>
+		<table class="tl_header_table" width="100%">
+			<tbody>
+			<tr>
+				<td><span class="tl_label">Linkliste:</span> <?= $this->numRows ?></td>
 			</tr></tbody>
 		</table>
 	</div>
@@ -37,8 +41,8 @@
 <?php foreach ($this->links as $link): ?>
 	<div onmouseout="Theme.hoverDiv(this,0)" onmouseover="Theme.hoverDiv(this,1)" class="tl_content no_padding even click2edit toggle_select" style="">
 		<div class="tl_content_right">
-			<a class="edit" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id=<?= $link['id'] ?>&amp;rt=<?= REQUEST_TOKEN ?>&amp;ref=<?= $link['ref'] ?>"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/<?= $this->getTheme() ?>/images/edit.gif"></a> 
-			<a class="editheader" title="" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id=<?= $link['pid'] ?>&amp;rt=<?= REQUEST_TOKEN ?>&amp;ref=<?= $link['ref'] ?>"><img width="12" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/<?= $this->getTheme() ?>/images/header.gif"></a> 
+			<a class="edit" title="<?= $link['edit'] ?>" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;act=edit&amp;id=<?= $link['id'] ?>&amp;rt=<?= REQUEST_TOKEN ?>&amp;ref=<?= $link['ref'] ?>"><img width="12" height="16" alt="Link bearbeiten" src="system/themes/<?= $this->getTheme() ?>/images/edit.gif"></a> 
+			<a class="editheader" title="<?= $link['edit_header'] ?>" href="contao/main.php?do=linkscollection&amp;table=tl_linkscollection_links&amp;id=<?= $link['pid'] ?>&amp;rt=<?= REQUEST_TOKEN ?>&amp;ref=<?= $link['ref'] ?>"><img width="12" height="16" alt="Links der Kategorie bearbeiten" src="system/themes/<?= $this->getTheme() ?>/images/header.gif"></a> 
 		</div>
 		<div style="background-image: url(<?= $link['icon'] ?>);" class="favicon-img">
 			<a target="_blank" href="<?= $link['url'] ?>"><b><?= $link['title'] ?></b></a> - <?= $link['url'] ?><div class="description"><?= $link['text'] ?></div>
