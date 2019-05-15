@@ -186,32 +186,41 @@ $GLOBALS['TL_DCA']['tl_linkscollection'] = array
 				array('tl_linkscollection', 'generateAlias')
 			), 
 		),
-		// Anzahl der Links ohne Unterkategorien (zählt ein Cronjob)
+		// Anzahl der Links ohne Unterkategorien (zÃ¤hlt ein Cronjob)
 		'links_self' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['links_self'],
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
-            'sql'                     => "int(6) unsigned NOT NULL default '0'"
+			'sql'                     => "int(6) unsigned NOT NULL default '0'"
 		), 
-		// Anzahl der Links inkl. Unterkategorien (zählt ein Cronjob)
+		// Anzahl der Links inkl. Unterkategorien (zÃ¤hlt ein Cronjob)
 		'links_all' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['links_all'],
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
-            'sql'                     => "int(6) unsigned NOT NULL default '0'"
+			'sql'                     => "int(6) unsigned NOT NULL default '0'"
 		), 
-		// Anzahl der neuen Links inkl. Unterkategorien (zählt ein Cronjob)
+		// Anzahl der neuen Links inkl. Unterkategorien (zÃ¤hlt ein Cronjob)
 		'links_new' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['links_new'],
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
-            'sql'                     => "int(6) unsigned NOT NULL default '0'"
+			'sql'                     => "int(6) unsigned NOT NULL default '0'"
+		), 
+		// Anzahl der geprÃ¼ften Links (zÃ¤hlt ein Cronjob)
+		'links_checkquote' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['links_checkquote'],
+			'exclude'                 => true,
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
+			'sql'                     => "int(3) unsigned NOT NULL default '0'"
 		), 
 		'protected' => array
 		(
@@ -322,20 +331,20 @@ class tl_linkscollection extends Backend
 		$breadcrumb = array();
 		if($cat) // Nur bei Unterkategorien
 		{
-			// Kategorienbaum einschränken
+			// Kategorienbaum einschrÃ¤nken
 			$GLOBALS['TL_DCA']['tl_linkscollection']['list']['sorting']['root'] = array($cat);
 		
 			// Infos zur aktuellen Kategorie laden
 			$objActual = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ? AND id = ?')
-							   				     ->execute(1, $cat);
+			                                     ->execute(1, $cat);
 			$breadcrumb[] = '<img src="system/modules/linkscollection/assets/images/category.png" width="18" height="18" alt=""> ' . $objActual->title;
 			
-			// Navigation vervollständigen
+			// Navigation vervollstÃ¤ndigen
 			$pid = $objActual->pid;
 			while($pid > 0)
 			{
 				$objTemp = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection WHERE published = ? AND id = ?')
-								   			       ->execute(1, $pid);
+				                                   ->execute(1, $pid);
 				$breadcrumb[] = '<img src="system/modules/linkscollection/assets/images/category.png" width="18" height="18" alt=""> <a href="' . \Controller::addToUrl('node='.$objTemp->id) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">' . $objTemp->title . '</a>';
 				$pid = $objTemp->pid;
 			}
@@ -387,9 +396,13 @@ class tl_linkscollection extends Backend
 			$label = '<strong>' . $label . '</strong>';
 		}
 
-		// Rückgabe der Zeile
+		if($row['links_checkquote'] <= 20) $checkquote = '<span style="color:#DD0000;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
+		elseif($row['links_checkquote'] > 20 && $row['links_checkquote'] <= 80) $checkquote = '<span style="color:#B3B300;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
+		elseif($row['links_checkquote'] > 80) $checkquote = '<span style="color:#52A400;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
+
+		// RÃ¼ckgabe der Zeile
 		return \Image::getHtml($image, '', $imageAttribute) . '<a href="' . \Controller::addToUrl('node='.$row['id']) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"> ' . $label . '</a> 
-		(<b>'.$row['links_self'].'</b>/'.$row['links_all'].')';
+		(<b>'.$row['links_self'].'</b>/'.$row['links_all'].' - '.$checkquote.')';
 
 	}
 
@@ -408,7 +421,7 @@ class tl_linkscollection extends Backend
 		if ($varValue == '')
 		{
 			$autoAlias = true;
-			$varValue = standardize(String::restoreBasicEntities($dc->activeRecord->title));
+			$varValue = standardize(StringUtil::restoreBasicEntities($dc->activeRecord->title));
 		}
 
 		$objAlias = $this->Database->prepare("SELECT id FROM tl_linkscollection WHERE id=? OR alias=?")

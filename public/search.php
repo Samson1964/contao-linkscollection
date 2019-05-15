@@ -14,6 +14,7 @@ use Contao\Controller;
  * Initialize the system
  */
 define('TL_MODE', 'FE');
+define('TL_SCRIPT', 'system/modules/linkscollection/public/search.php');
 if(file_exists('../../../initialize.php')) require('../../../initialize.php');
 else require('../../../../system/initialize.php');
 

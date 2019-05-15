@@ -1,5 +1,10 @@
 # Linksammlung
 
+## Version 0.5.0 (2019-05-15)
+
+Neu: Anzeige der geprüften Links einer Kategorie im BE
+Fix: Anpassung auf Contao 4
+
 ## Version 0.4.0 (2017-08-20)
 
 Fix: Bei neuen Links im FE, wurde der erste Link nicht angezeigt
