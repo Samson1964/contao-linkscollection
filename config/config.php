@@ -12,11 +12,11 @@
  */
 
 // Include Simple HTML Dom Parser
-require_once(TL_ROOT . '/system/modules/linkscollection/includes/simple_html_dom.php');
+require_once(TL_ROOT . '/system/helper/simple_html_dom.php');
 
-define(DEFAULT_FAVICON, 'system/modules/linkscollection/assets/images/favicon.png');
-define(NEWICON, '<img src="system/modules/linkscollection/assets/images/new.gif">');
-define(DATE_NEWLINK, 60480000); // 100 Tage
+define('DEFAULT_FAVICON', 'system/modules/linkscollection/assets/images/favicon.png');
+define('NEWICON', '<img src="system/modules/linkscollection/assets/images/new.gif">');
+define('DATE_NEWLINK', 60480000); // 100 Tage
 
 /**
  * Backend-Modul BdF anlegen und einfügen
@@ -29,7 +29,8 @@ array_insert($GLOBALS['BE_MOD']['content'], 4, array
 		'tables'         => array('tl_linkscollection', 'tl_linkscollection_links'),
 		'icon'           => 'system/modules/linkscollection/assets/images/icon.png',
 		'analyse'        => array('Linkscollection', 'Linkanalyse'),
-		'linklist'       => array('Linkscollection', 'Linklist')
+		'linklist'       => array('Linkscollection', 'Linklist'),
+		'statistik'      => array('Linkscollection', 'Statistik')
 	)
 ));
 
@@ -65,5 +66,4 @@ $GLOBALS['TL_LINKSCOLLECTION_LINKS_FILTER']['text']  = 'id IN (SELECT id FROM tl
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['loadFormField'][] = array('Samson\Linksammlung\Helper', 'setCategoriesToForm');
- 
+//$GLOBALS['TL_HOOKS']['loadFormField'][] = array('Samson\Linksammlung\Helper', 'setCategoriesToForm');

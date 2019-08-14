@@ -71,6 +71,13 @@ $GLOBALS['TL_DCA']['tl_linkscollection'] = array
 				'icon'                => 'system/modules/linkscollection/assets/images/problem_16.png',
 				'attributes'          => 'onclick="Backend.getScrollOffset();"'
 			),
+			'statistik' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_linkscollection']['statistik'],
+				'href'                => 'key=statistik',
+				'icon'                => 'system/modules/linkscollection/assets/images/statistik.png',
+				'attributes'          => 'onclick="Backend.getScrollOffset();"'
+			),
 			'toggleNodes' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['toggleAll'],
@@ -396,9 +403,19 @@ class tl_linkscollection extends Backend
 			$label = '<strong>' . $label . '</strong>';
 		}
 
-		if($row['links_checkquote'] <= 20) $checkquote = '<span style="color:#DD0000;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
-		elseif($row['links_checkquote'] > 20 && $row['links_checkquote'] <= 80) $checkquote = '<span style="color:#B3B300;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
-		elseif($row['links_checkquote'] > 80) $checkquote = '<span style="color:#52A400;">'.$row['links_checkquote'].'%</span> Links in Ordnung';
+		// Farben für % geprüfte Links festlegen, Farbverlauf von Rot über Gelb nach Grün
+		if($row['links_checkquote'] <= 10) $farbe = '#ff0000';
+		elseif($row['links_checkquote'] <= 19) $farbe = '#ff2800';
+		elseif($row['links_checkquote'] <= 28) $farbe = '#ff5000';
+		elseif($row['links_checkquote'] <= 37) $farbe = '#ff7800';
+		elseif($row['links_checkquote'] <= 46) $farbe = '#ffa000';
+		elseif($row['links_checkquote'] <= 55) $farbe = '#ffd200';
+		elseif($row['links_checkquote'] <= 64) $farbe = '#d8d32d';
+		elseif($row['links_checkquote'] <= 73) $farbe = '#c4d62c';
+		elseif($row['links_checkquote'] <= 82) $farbe = '#7fdf26';
+		elseif($row['links_checkquote'] <= 91) $farbe = '#39e821';
+		else $farbe = '#04c400';
+		$checkquote = '<span style="color:'.$farbe.';">'.$row['links_checkquote'].'%</span> Links in Ordnung';
 
 		// Rückgabe der Zeile
 		return \Image::getHtml($image, '', $imageAttribute) . '<a href="' . \Controller::addToUrl('node='.$row['id']) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"> ' . $label . '</a> 
@@ -425,7 +442,7 @@ class tl_linkscollection extends Backend
 		}
 
 		$objAlias = $this->Database->prepare("SELECT id FROM tl_linkscollection WHERE id=? OR alias=?")
-								   ->execute($dc->id, $varValue);
+		                           ->execute($dc->id, $varValue);
 
 		// Check whether the page alias exists
 		if ($objAlias->numRows > 1)
@@ -453,28 +470,28 @@ class tl_linkscollection extends Backend
 	 */
 	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
 	{
-        $this->import('BackendUser', 'User');
- 
-        if (strlen($this->Input->get('tid')))
-        {
-            $this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 0));
-            $this->redirect($this->getReferer());
-        }
- 
-        // Check permissions AFTER checking the tid, so hacking attempts are logged
-        if (!$this->User->isAdmin && !$this->User->hasAccess('tl_linkscollection::published', 'alexf'))
-        {
-            return '';
-        }
- 
-        $href .= '&amp;id='.$this->Input->get('id').'&amp;tid='.$row['id'].'&amp;state='.$row[''];
- 
-        if (!$row['published'])
-        {
-            $icon = 'invisible.gif';
-        }
- 
-        return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
+		$this->import('BackendUser', 'User');
+	
+		if (strlen($this->Input->get('tid')))
+		{
+			$this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 0));
+			$this->redirect($this->getReferer());
+		}
+		
+		// Check permissions AFTER checking the tid, so hacking attempts are logged
+		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_linkscollection::published', 'alexf'))
+		{
+			return '';
+		}
+		
+		$href .= '&amp;id='.$this->Input->get('id').'&amp;tid='.$row['id'].'&amp;state='.$row[''];
+		
+		if (!$row['published'])
+		{
+			$icon = 'invisible.gif';
+		}
+		
+		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
 	}
 
 	/**

@@ -9,6 +9,7 @@
  * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
+//namespace Samson\Linkscollection;
 
 class Linkscollection
 {
@@ -94,6 +95,8 @@ class Linkscollection
 			}
 			// Sprache der URL ermitteln
 			$language = self::checkLanguage($objRequest->response);
+			// CMS der URL ermitteln
+			$cms = self::checkCMS($objRequest->response);
 
 		}
 
@@ -102,12 +105,15 @@ class Linkscollection
 		$arrRow['statecode'] = $objRequest->code;
 		$arrRow['statetext'] = ($objRequest->error) ? : 'OK';
 		$arrRow['language'] = $language;
+		$arrRow['cms'] = $cms;
 		$set = array
 		(
 			'statedate' => $arrRow['statedate'],
 			'statecode' => $arrRow['statecode'],
 			'statetext' => $arrRow['statetext'],
-			'language'  => $arrRow['language']
+			'language'  => $arrRow['language'],
+			'cms'       => $arrRow['cms'],
+			'cmsdate'   => $arrRow['statedate']
 		);
 		\Database::getInstance()->prepare('UPDATE tl_linkscollection_links %s WHERE id = ?')
 		                        ->set($set)
@@ -135,6 +141,33 @@ class Linkscollection
 				if($item->lang)
 				{
 					$return = $item->lang;
+					break;
+				}
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Liest den Generator aus dem DOM
+	 * @param string	HTML der Webseite
+	 * @return string
+	 */
+	public static function checkCMS($string)
+	{
+		$return = '';
+
+		// DOM aus einem String
+		$html = str_get_html($string);
+		if($html)
+		{
+			// <meta name="generator" content="?">
+			foreach($html->find('meta') as $item)
+			{
+				if($item->name == 'generator')
+				{
+					$return = $item->content;
 					break;
 				}
 			}
@@ -422,6 +455,34 @@ class Linkscollection
 		$Template->numRows = ($objLinks->numRows) ? $objLinks->numRows . ' Treffer' : 'Not found';
 		$Template->links = $arrLinks;
 		return $Template->parse();
+	}
+
+	/**
+	 * Berechnet die Statistiken der Linksammlung neu
+	 * @param string	Serialisiertes Array mit den Daten
+	 * @return array
+	 */
+	public function Statistik(DataContainer $dc)
+	{
+		if(\Input::get('key') != 'statistik')
+		{
+			return '';
+		}
+
+		//\Linkbuilder::run();
+		
+		// Zurücklink generieren, ab C4 ist das ein symbolischer Link zu "contao"
+		if (version_compare(VERSION, '4.0', '>='))
+		{
+			$backlink = \System::getContainer()->get('router')->generate('contao_backend');
+		}
+		else
+		{
+			$backlink = 'main.php';
+		}
+		$backlink .= '?do=linkscollection&rt='.REQUEST_TOKEN;
+		header('Location:'.$backlink);
+
 	}
 
 }

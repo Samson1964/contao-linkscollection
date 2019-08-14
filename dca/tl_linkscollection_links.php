@@ -36,26 +36,26 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 		(
 			array('tl_linkscollection_links', 'saveRecord')
 		)
-    ),
- 
-    // List
-    'list' => array
-    (
-        'sorting' => array
-        (
-            'mode'                    => 4,
-            'fields'                  => array('title ASC'),
-            'headerFields'            => array('title'),
-            'panelLayout'             => 'search,limit',
-            //'root'                    => array(194),
+	),
+
+	// List
+	'list' => array
+	(
+		'sorting' => array
+		(
+			'mode'                    => 4,
+			'fields'                  => array('title ASC'),
+			'headerFields'            => array('title'),
+			'panelLayout'             => 'search,limit',
+			//'root'                    => array(194),
 			'disableGrouping'         => true,
 			'child_record_callback'   => array('tl_linkscollection_links', 'listLinks'),
 			'child_record_class'      => 'no_padding',
 			'filter'                  => BackendLinkscollectionFilter\Filter::getCurrentFilterDefinition('tl_linkscollection_links'),
 			//'rootPaste'               => false
 		),
-        'global_operations' => array
-        (
+		'global_operations' => array
+		(
 			'linklist' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_linkscollection']['linklist'],
@@ -70,13 +70,20 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
 				'icon'                => 'system/modules/linkscollection/assets/images/problem_16.png',
 				'attributes'          => 'onclick="Backend.getScrollOffset();"'
 			),
-            'all' => array
-            (
-                'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
-                'href'                => 'act=select',
-                'class'               => 'header_edit_all',
-                'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
-            ),
+			'statistik' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_linkscollection']['statistik'],
+				'href'                => 'key=statistik',
+				'icon'                => 'system/modules/linkscollection/assets/images/statistik.png',
+				'attributes'          => 'onclick="Backend.getScrollOffset();"'
+			),
+			'all' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
+				'href'                => 'act=select',
+				'class'               => 'header_edit_all',
+				'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
+			),
 			'filter' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['extendedFilter'],
@@ -326,6 +333,24 @@ $GLOBALS['TL_DCA']['tl_linkscollection_links'] = array
     		'flag'					  => 5,
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		), 
+		// Verwendetes CMS
+		'cms' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['cms'],
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>false, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		// Datum der CMS-Prüfung
+		'cmsdate' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['cmsdate'],
+			'exclude'                 => true,
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>false, 'rgxp'=>'numeric'),
+			'flag'                    => 5,
+			'sql'                     => "int(10) unsigned NOT NULL default '0'"
+		),
   		'problem' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_linkscollection_links']['problem'],
@@ -621,6 +646,10 @@ class tl_linkscollection_links extends Backend
 			// URL neu prüfen und Favicon downloaden
 			$arrRow = \Linkscollection::saveFavicon($arrRow);
 		}
+		// Letzte Prüfung vor x Tagen
+		$check_days = ceil((time() - $arrRow['statedate']) / 86400);
+		// Nächster Zeitpunkt für eine Prüfung
+		$refreshtime_next = $arrRow['statedate'] + ($GLOBALS['TL_CONFIG']['linkscollection_test_duration'] * 86400);
 
 		// Favicon suchen
 		$icon = \Linkscollection::getFavicon($arrRow['id']);
@@ -650,7 +679,11 @@ class tl_linkscollection_links extends Backend
         $archivclass = ($arrRow['webarchiv']) ? ' webarchiv' : ''; // Webarchiv-Klasse hinzufügen
         
         $line = '';
-        $line .= '<div class="tl_content_right" style="'.$style.' font-weight:bold;">'.$arrRow['statecode'].'</div>';
+		$line .= '<div class="tl_content_right">';
+		$line .= '<span style="margin-right:5px; color:#9F5000;" title="Verwendetes CMS">'.$arrRow['cms'].'</span>';
+		$line .= '<span style="'.$style.' font-weight:bold;">'.$arrRow['statecode'].'</span>';
+		$line .= '<span style="font-size:0.6rem; margin-left:3px;" title="Zeitpunkt der letzten Prüfung. Nächste Prüfung: '.date('d.m.Y H:i',$refreshtime_next).'"> vor '.$check_days.' Tag(en)</span>';
+		$line .= '</div>';
         $line .= '<div class="favicon-img'.$archivclass.'" style="background-image: url('.$icon.');">';
         $line .= '<a href="'.$arrRow['url'].'" target="_blank"><b>'.$arrRow['title'].'</b></a> - '.$arrRow['url'].$info;
         if($arrRow['text']) $line .= '<div class="description">'.$arrRow['text'].'</div>';

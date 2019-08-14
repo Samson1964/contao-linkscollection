@@ -1,5 +1,8 @@
 # Linksammlung
 
+Add: Webarchiv-Links werden jetzt am Schluß im Frontend angezeigt
+Fix: CMS-Erkennung wiederhergestellt (22.07.2019)
+
 ## Version 0.5.0 (2019-05-15)
 
 Neu: Anzeige der geprüften Links einer Kategorie im BE

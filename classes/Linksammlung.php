@@ -10,6 +10,7 @@
  * @license   GNU/LGPL
  * @copyright Frank Hoppe 2016 - 2017
  */
+//namespace Samson\Linkscollection;
 
 class Linksammlung extends \Module
 {
@@ -83,6 +84,7 @@ class Linksammlung extends \Module
 					$this->Search();
 					break;
 				case 'sendlink':
+					//$this->ViewNewlinkForm();
 					break;
 			}
 			return;
@@ -163,7 +165,7 @@ class Linksammlung extends \Module
 		}
 
 		// Links laden
-		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND pid = ? ORDER BY popular DESC, title ASC')
+		$objLinks = \Database::getInstance()->prepare('SELECT * FROM tl_linkscollection_links WHERE published = ? AND pid = ? ORDER BY popular DESC, webarchiv ASC, title ASC')
 		                                    ->execute(1, $this->currentCategory);
 
 		$links = array();
@@ -199,7 +201,7 @@ class Linksammlung extends \Module
 		$this->Subtemplate->links = $links;
 		$this->Template->links = $this->Subtemplate->parse();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
-		if($this->currentCategory) $this->Template->form = $this->SendlinkForm();
+		//if($this->currentCategory) $this->Template->form = $this->SendlinkForm();
 	}
 
 	/**
@@ -297,6 +299,20 @@ class Linksammlung extends \Module
 	}
 
 	/**
+	 * Generate Linkform für neue Links
+	 */
+	protected function ViewNewlinkForm()
+	{
+		global $objPage;
+
+		$this->Template = new \FrontendTemplate('mod_linkscollection_newlinks');
+
+		// Template füllen
+		$this->Template->menu = $this->Menu();
+		$this->Template->form = $this->SendlinkForm();
+	}
+
+	/**
 	 * Generate Suche
 	 */
 	protected function search()
@@ -343,7 +359,7 @@ class Linksammlung extends \Module
 		// Template füllen
 		$this->Template->menu = $this->Menu();
 		$this->Template->counter = array('categories'=>$this->numberCategories,'links'=>$this->numberLinks);
-		$this->Template->form = $this->SendProblemForm($objLink);
+		//$this->Template->form = $this->SendProblemForm($objLink);
 	}
 
 	protected function Menu()
@@ -496,7 +512,7 @@ class Linksammlung extends \Module
 
 	protected function saveNewlink($data)
 	{
-		print_r($data);
+		//print_r($data);
 		// Datenbank aktualisieren
 		$zeit = time();
 		$set = array
@@ -629,7 +645,7 @@ class Linksammlung extends \Module
 
 	protected function saveProblemlink($data)
 	{
-		print_r($data);
+		//print_r($data);
 
 		// Meldung zusammenbauen
 		$zeit = time();

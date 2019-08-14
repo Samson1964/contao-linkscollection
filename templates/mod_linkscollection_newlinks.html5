@@ -8,7 +8,7 @@
 			<?php endforeach; ?>
 			</ul>
 		</div>
-	<?php endif; ?>		
+	<?php endif; ?>
 
 	<?php if($this->links): ?>
 		<div class="newlinks links">
@@ -17,13 +17,20 @@
 				<?= $this->links ?>
 			</ul>
 		</div>
-	<?php endif; ?>		
+	<?php endif; ?>
+
+	<?php if($this->form): ?>
+		<h2>Link melden</h2>
+		<div class="form">
+			<?= $this->form ?>
+		</div>
+	<?php endif; ?>
 
 	<?php if($this->counter): ?>
 		<div class="counter">
 			E-Mail: {{email::links@schachbund.de}}<br>
 			Die Datenbank enthält <b><?= $this->counter['categories'] ?></b> Kategorien mit <b><?= $this->counter['links'] ?></b> Links.
 		</div>
-	<?php endif; ?>		
+	<?php endif; ?>
 
 </div> 
